@@ -1,6 +1,6 @@
 var gameModel;
 var didPressScan;
-var didPressPlaceShip;
+var didPressPlaceShip = true;
 var didPressRotate = "horizontal";
 
 /* On page ready.. */
@@ -14,6 +14,7 @@ $( document ).ready(function() {
 
   // Create gameBoards
   createGameBoards();
+  chooseShips();
   SetUpShipStatus();
 });
 
@@ -124,8 +125,10 @@ function log(logContents){
 /* Updates view */
 function displayGameState(gameModel){
 
-  $( '#MyBoard td'  ).css("background-image", "images/rickhead.jpg");
-  $( '#TheirBoard td'  ).css("background-image", "images/mortyhead.png");
+  $( '#MyBoard td'  ).css("background-color", "#25383C");
+  $( '#TheirBoard td'  ).css("background-color", "#25383C");
+  $( '#MyBoard td'  ).css("background-image", "none");
+  $( '#TheirBoard td'  ).css("background-image", "none");
 
   if(didPressScan) {
     if(gameModel.scanResult){
@@ -155,7 +158,7 @@ function displayGameState(gameModel){
     $( '#MyBoard #' + gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).css("background-image", "url(../../../css/images/rickhead.png)");
   }
   for (var i = 0; i < gameModel.playerHits.length; i++) {
-    $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-image", "url(../../../css/images/mortyhead.png");
+    $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-color", "red");
   }
 
 
@@ -172,16 +175,66 @@ function displayShip(ship){
   // console.log(startCoordAcross);
   if(startCoordAcross > 0){
     if(startCoordAcross == endCoordAcross){
-      for (i = startCoordDown; i < endCoordDown; i++) {
+      for (i = startCoordDown; i <= endCoordDown; i++) {
         $( '#MyBoard #'+startCoordAcross+'_'+i  ).css("background-image", "url(../../../css/images/mortyhead.png)");
 
       }
     } else {
-      for (i = startCoordAcross; i < endCoordAcross; i++) {
-        $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-color", "red");
+      for (i = startCoordAcross; i <= endCoordAcross; i++) {
+        $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-image", "url(../../../css/images/mortyhead.png)");
       }
     }
   }
+}
+
+/* Set up Game */
+function chooseShips(){
+  //Make #shipStatus touchable
+  $('#shipStatus').on("click", "tr", function() {
+
+    // // Display Coords in footer
+
+    // Fire or scan Coord
+    if(didPressPlaceShip){
+        var ship = $(this).attr('id');      //works. Assigns ship1, ship2, ... ship5 to var ship
+        $('footer #status').text(ship + " Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
+    } else {
+        $('footer #status').text("That is not right.");
+    }
+    //make #MyBoard touchable
+    $('#MyBoard').on("click", "td", function() {
+
+      // // Display Coords in footer
+      var coords = $(this).attr('id').split("_"); //works. Assigns coords to correct coordinates. Send to placeShip
+
+      // Fire or scan Coord
+      if(didPressPlaceShip){
+        $('footer #status').text("Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
+      } else {
+          $('footer #status').text("That is not right.");
+
+      }
+      var orientation = didPressRotate;
+
+      placeShip(ship, coords[0], coords[1], orientation);
+
+      // Make grid touchable to fire at
+      $('#TheirBoard').on("click", "td", function() {
+
+        // // Display Coords in footer
+        var coords = $(this).attr('id').split("_");
+
+        // Fire or scan Coord
+        if(didPressScan){
+          scan(coords[0], coords[1]);
+            $('footer #status').text("Scaned " + coords[0] + ", " + coords[1]);
+        } else {
+          fire(coords[0], coords[1]);
+        }
+      });
+    });
+  });
+
 }
 
 /* Creates grid of 10 squares for MyBoard and TheirBoard */
@@ -218,38 +271,6 @@ function createGameBoards() {
     } else {
         $('footer #status').text("That is not right.");
     }
-  //make #MyBoard touchable
-  $('#MyBoard').on("click", "td", function() {
-
-    // // Display Coords in footer
-    var coords = $(this).attr('id').split("_"); //works. Assigns coords to correct coordinates. Send to placeShip
-
-    // Fire or scan Coord
-    if(didPressPlaceShip){
-      $('footer #status').text("Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
-    } else {
-        $('footer #status').text("That is not right.");
-
-    }
-    var orientation = didPressRotate;
-
-    placeShip(ship, coords[0], coords[1], orientation);
-  })});
-  // Make grid touchable to fire at
-  $('#TheirBoard').on("click", "td", function() {
-
-    // // Display Coords in footer
-    var coords = $(this).attr('id').split("_");
-
-    // Fire or scan Coord
-    if(didPressScan){
-      scan(coords[0], coords[1]);
-        $('footer #status').text("Scaned " + coords[0] + ", " + coords[1]);
-    } else {
-      fire(coords[0], coords[1]);
-    }
-
-
   });
 }
 
@@ -293,4 +314,3 @@ function SetUpShipStatus(){
   }
   $("</table>").appendTo('.gameBoard');
 }
-
