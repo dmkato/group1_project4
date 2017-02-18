@@ -150,7 +150,7 @@ function displayGameState(gameModel){
 
   }
   for (var i = 0; i < gameModel.computerHits.length; i++) {
-    $( '#TheirBoard #' + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).css("background-image", "url(../../../css/images/mortyhead.png");
+    $( '#TheirBoard #' + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).css("background-image", "url(../../../css/images/mortyhead.png)");
     //snd = new Audio('../../../css/sounds/oh_man.wav');
   }
 
