@@ -1,6 +1,6 @@
 var gameModel;
 var didPressScan;
-var didPressPlaceShip;
+var didPressPlaceShip = true;
 var didPressRotate = "horizontal";
 
 /* On page ready.. */
@@ -124,8 +124,10 @@ function log(logContents){
 /* Updates view */
 function displayGameState(gameModel){
 
-  $( '#MyBoard td'  ).css("background-image", "images/rickhead.jpg");
-  $( '#TheirBoard td'  ).css("background-image", "images/mortyhead.png");
+  $( '#MyBoard td'  ).css("background-color", "#25383C");
+  $( '#TheirBoard td'  ).css("background-color", "#25383C");
+  $( '#MyBoard td'  ).css("background-image", "none");
+  $( '#TheirBoard td'  ).css("background-image", "none");
 
   if(didPressScan) {
     if(gameModel.scanResult){
@@ -172,12 +174,12 @@ function displayShip(ship){
   // console.log(startCoordAcross);
   if(startCoordAcross > 0){
     if(startCoordAcross == endCoordAcross){
-      for (i = startCoordDown; i < endCoordDown; i++) {
+      for (i = startCoordDown; i <= endCoordDown; i++) {
         $( '#MyBoard #'+startCoordAcross+'_'+i  ).css("background-image", "url(../../../css/images/mortyhead.png)");
 
       }
     } else {
-      for (i = startCoordAcross; i < endCoordAcross; i++) {
+      for (i = startCoordAcross; i <= endCoordAcross; i++) {
         $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-color", "red");
       }
     }
@@ -293,4 +295,3 @@ function SetUpShipStatus(){
   }
   $("</table>").appendTo('.gameBoard');
 }
-
