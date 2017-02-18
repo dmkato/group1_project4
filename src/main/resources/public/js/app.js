@@ -172,12 +172,12 @@ function displayShip(ship){
   // console.log(startCoordAcross);
   if(startCoordAcross > 0){
     if(startCoordAcross == endCoordAcross){
-      for (i = startCoordDown; i <= endCoordDown; i++) {
+      for (i = startCoordDown; i < endCoordDown; i++) {
         $( '#MyBoard #'+startCoordAcross+'_'+i  ).css("background-image", "url(../../../css/images/mortyhead.png)");
 
       }
     } else {
-      for (i = startCoordAcross; i <= endCoordAcross; i++) {
+      for (i = startCoordAcross; i < endCoordAcross; i++) {
         $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-color", "red");
       }
     }
