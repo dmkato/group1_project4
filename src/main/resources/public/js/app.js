@@ -157,7 +157,7 @@ function displayGameState(gameModel){
     $( '#MyBoard #' + gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).css("background-image", "url(../../../css/images/rickhead.png)");
   }
   for (var i = 0; i < gameModel.playerHits.length; i++) {
-    $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-image", "url(../../../css/images/mortyhead.png");
+    $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-color", "red");
   }
 
 
