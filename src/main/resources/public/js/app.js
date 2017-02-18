@@ -180,7 +180,7 @@ function displayShip(ship){
       }
     } else {
       for (i = startCoordAcross; i <= endCoordAcross; i++) {
-        $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-color", "red");
+        $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-image", "url(../../../css/images/mortyhead.png)");
       }
     }
   }
