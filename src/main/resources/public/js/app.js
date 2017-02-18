@@ -14,6 +14,7 @@ $( document ).ready(function() {
 
   // Create gameBoards
   createGameBoards();
+  chooseShips();
   SetUpShipStatus();
 });
 
@@ -186,6 +187,42 @@ function displayShip(ship){
   }
 }
 
+/* Set up Game */
+function chooseShips(){
+  //make #MyBoard touchable
+  $('#MyBoard').on("click", "td", function() {
+
+    // // Display Coords in footer
+    var coords = $(this).attr('id').split("_"); //works. Assigns coords to correct coordinates. Send to placeShip
+
+    // Fire or scan Coord
+    if(didPressPlaceShip){
+      $('footer #status').text("Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
+    } else {
+        $('footer #status').text("That is not right.");
+
+    }
+    var orientation = didPressRotate;
+
+    placeShip(ship, coords[0], coords[1], orientation);
+
+    // Make grid touchable to fire at
+    $('#TheirBoard').on("click", "td", function() {
+
+      // // Display Coords in footer
+      var coords = $(this).attr('id').split("_");
+
+      // Fire or scan Coord
+      if(didPressScan){
+        scan(coords[0], coords[1]);
+          $('footer #status').text("Scaned " + coords[0] + ", " + coords[1]);
+      } else {
+        fire(coords[0], coords[1]);
+      }
+    });
+  });
+}
+
 /* Creates grid of 10 squares for MyBoard and TheirBoard */
 function createGameBoards() {
   var table = $("<table>").appendTo('.gameBoard');
@@ -220,38 +257,6 @@ function createGameBoards() {
     } else {
         $('footer #status').text("That is not right.");
     }
-  //make #MyBoard touchable
-  $('#MyBoard').on("click", "td", function() {
-
-    // // Display Coords in footer
-    var coords = $(this).attr('id').split("_"); //works. Assigns coords to correct coordinates. Send to placeShip
-
-    // Fire or scan Coord
-    if(didPressPlaceShip){
-      $('footer #status').text("Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
-    } else {
-        $('footer #status').text("That is not right.");
-
-    }
-    var orientation = didPressRotate;
-
-    placeShip(ship, coords[0], coords[1], orientation);
-  })});
-  // Make grid touchable to fire at
-  $('#TheirBoard').on("click", "td", function() {
-
-    // // Display Coords in footer
-    var coords = $(this).attr('id').split("_");
-
-    // Fire or scan Coord
-    if(didPressScan){
-      scan(coords[0], coords[1]);
-        $('footer #status').text("Scaned " + coords[0] + ", " + coords[1]);
-    } else {
-      fire(coords[0], coords[1]);
-    }
-
-
   });
 }
 

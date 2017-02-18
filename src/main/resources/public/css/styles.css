@@ -7,42 +7,43 @@ html, body, table{
 }
 
 .gameBoard td {
-    width: 48px;
+    width: 35px;
     background-color: #25383C;
     /*background-image: url("images/rickhead.jpg");*/
-    background-size: 48px 48px;
+    background-size: 35px 35px;
 }
 
 #legend{
-    height: 56px;
-    width: 480px;
+    height: 35px;
+    width: 350px;
 }
 
 #parent {
     text-align: left;
-    width: 480px;
-    height: 240px;
+    width: 350px;
+    height: 175px;
+    margin: 0 auto;
 }
 
 #parent table{
-    width: 240px;
-    height: 240px;
+    width: 175px;
+    height: 175px;
 }
 
 #parent td {
-    width: 480px;
+    width: 350px;
 }
 
 #shipStatus {
     float:left;
-    width: 240px;
-    height: 240px;
+    width: 175px;
+    height: 175px;
     padding-right: 0.5%;
 }
 
 #shipStatus td {
     background-image: url("images/mortyhead.png");
-    background-size: 48px 48px;
+    background-size: 35px 35px;
     border: none
 }
 
@@ -51,22 +52,23 @@ html, body, table{
 }
 
 #MyBoard {
-    width: 240px;
-    height: 240px;
+    width: 175px;
+    height: 175px;
     overflow: hidden;
 }
 
 #MyBoard td {
-    background-size: 24px 24px;
+    background-size: 20px 20px;
 }
 
 #TheirBoard {
-    width: 480px;
-    height: 480px;
+    width: 350px;
+    height: 350px;
+    margin: 0 auto;
 }
 
 #TheirBoard td {
-    height: 48px;
+    height: 35px;
 }
 
 .gameBoard table, th, td {
@@ -89,7 +91,7 @@ body {
 
 footer {
     background-color: #25383c;
-    margin-top: 1%;
+    margin-top: 2%;
     margin-bottom: 1%;
     padding-top: 1%;
     padding-bottom: 1%;
@@ -114,7 +116,7 @@ img {
 
 /* Jake's styles */
 whitetext {
-    font: 20px 'Helvetica Neue', Helvetica, sans-serif;
+    font: 16px 'Helvetica Neue', Helvetica, sans-serif;
     color: white;
     margin-left: auto;
     margin-right: 0;
@@ -130,4 +132,3 @@ whitetitle {
     font: 36px '', Verdana, sans-serif;
     color: white;
 }
-
