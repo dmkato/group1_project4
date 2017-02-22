@@ -2,6 +2,7 @@ var gameModel;
 var didPressScan;
 var didPressPlaceShip = true;
 var didPressRotate = "horizontal";
+var scannedCoord = null;
 
 /* On page ready.. */
 $( document ).ready(function() {
@@ -20,8 +21,6 @@ $( document ).ready(function() {
 
 /* Places Ship based on buttons that no longer exist */
 function placeShip(ship, x, y, orientation) {
-    //if()
-
   //var menuId = $( "ul.nav" ).first().attr( "id" );
   var request = $.ajax({
     url: "/placeShip/"+ship+"/"+x+"/"+y+"/"+orientation,
@@ -45,7 +44,7 @@ function placeShip(ship, x, y, orientation) {
 
 /* Fires at coordinates x, y */
 function fire(x, y){
-
+    scannedCoord = null;
    var lasergun = new Audio('../../../css/sounds/laser.m4a');
 
    lasergun.play();
@@ -161,9 +160,21 @@ function displayGameState(gameModel){
     $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-color", "red");
   }
 
+  // Show scanned area
+  if(scannedCoord != null){
+    // Set surrounding squres
+    var surroundingCoord = "";
+    for(var x = -1; x <= 1; x++){
+      for(var y = -1; y <= 1; y++){
+        var coords = scannedCoord.split("_");
 
-  //snd.play();
-
+        surroundingCoord = (parseInt(coords[0]) + x) + "_" + (parseInt(coords[1]) + y);
+        $('#TheirBoard #' + surroundingCoord).css("background-color", "lightgreen");
+      }
+    }
+  // Set scanned square
+  $('#TheirBoard #' + scannedCoord).css("background-color", "green");
+  }
 }
 
 /* Displays ship on MyBoard */
@@ -222,12 +233,15 @@ function chooseShips(){
       $('#TheirBoard').on("click", "td", function() {
 
         // // Display Coords in footer
-        var coords = $(this).attr('id').split("_");
+        var tdId = $(this).attr('id');
+        var coords = tdId.split("_");
 
         // Fire or scan Coord
         if(didPressScan){
           scan(coords[0], coords[1]);
             $('footer #status').text("Scaned " + coords[0] + ", " + coords[1]);
+            scannedCoord = tdId;
+            displayGameState(gameModel);
         } else {
           fire(coords[0], coords[1]);
         }
@@ -259,37 +273,37 @@ function createGameBoards() {
     }
     table.append("</tr>");
   }
-  //Make #shipStatus touchable
-  $('#shipStatus').on("click", "tr", function() {
-
-    // // Display Coords in footer
-
-    // Fire or scan Coord
-    if(didPressPlaceShip){
-        var ship = $(this).attr('id');      //works. Assigns ship1, ship2, ... ship5 to var ship
-        $('footer #status').text(ship + " Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
-    } else {
-        $('footer #status').text("That is not right.");
-    }
-  });
 }
 
 /* Is called when the user presses 'scan' button */
 function pressedScan(){
   didPressScan = true;
-        $('footer #status').text("Selected Scan");
+  $('#rotateShipBtn').css("visibility", "hidden");
+  $('#scanBtn').addClass('btn-success');
+  $('#fireBtn').removeClass('btn-success');
+  $('#placeShipBtn').removeClass('btn-success');
+  $('#rotateShipBtn').removeClass('btn-success');
 }
 
 /* Is called when the user presses 'fire' button */
 function pressedFire(){
   didPressScan = false;
-        $('footer #status').text("Selected Fire");
+  $('#rotateShipBtn').css("visibility", "hidden");
+  $('#fireBtn').addClass('btn-success');
+  $('#scanBtn').removeClass('btn-success');
+  $('#placeShipBtn').removeClass('btn-success');
+  $('#rotateShipBtn').removeClass('btn-success');
 }
 
 function pressedPlaceShip(){
-    didPressScan = false;
-    didPressPlaceShip = true;
-        $('footer #status').text("Placing Ships...");
+  didPressScan = false;
+  didPressPlaceShip = true;
+  $('#rotateShipBtn').css("visibility", "visible");
+
+  $('#placeShipBtn').addClass('btn-success');
+  $('#fireBtn').removeClass('btn-success');
+  $('#scanBtn').removeClass('btn-success');
+  $('#rotateShipBtn').removeClass('btn-success');
 }
 
 function pressedRotate(){
