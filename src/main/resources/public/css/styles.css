@@ -96,6 +96,7 @@ footer {
     margin-bottom: 1%;
     padding-top: 1%;
     padding-bottom: 1%;
+    transition: all 0.3s ease 0s;
 }
 
 footer button {
@@ -113,6 +114,10 @@ footer span {
 img {
     margin-left: 0;
     margin-right: auto;
+}
+
+#rotateShipBtn{
+    visibility: hidden;
 }
 
 /* Jake's styles */
