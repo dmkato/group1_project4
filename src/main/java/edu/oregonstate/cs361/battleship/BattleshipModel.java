@@ -143,14 +143,14 @@ public class BattleshipModel {
         if(computer_aircraftCarrier.scan(coor)){
             scanResult = true;
         }
-        else if (computer_battleship.scan(coor)){
-            scanResult = true;
+        else if (computer_battleship.scan(coor)){    // battleship has stealth
+            scanResult = false;
         }else if (computer_cruiser.scan(coor)){
             scanResult = true;
         }else if (computer_destroyer.scan(coor)){
             scanResult = true;
-        }else if (computer_submarine.scan(coor)){
-            scanResult = true;
+        }else if (computer_submarine.scan(coor)){   //submarine has stealth
+            scanResult = false;
         } else {
             scanResult = false;
         }
