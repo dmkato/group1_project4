@@ -6,7 +6,7 @@ var scannedCoord = null;
 
 /* On page ready.. */
 $( document ).ready(function() {
-    alert("INSTRUCTIONS: \n Press 'Place Ship' button at bottom\n Choose the ship to place, dispayed under 'computer ships remaining.' **Note: Must choose smallest ship first.\n Press 'Rotate Ship' to choose between Horizontal and Vertical. **Note: Default is Horizontal.\n Press 'Fire' to fire");
+    alert("INSTRUCTIONS: \n Press 'Place Ship' button at bottom\n Choose the ship to place, displayed under 'computer ships remaining.' **Note: Must choose smallest ship first.\n Press 'Rotate Ship' to choose between Horizontal and Vertical. **Note: Default is Horizontal.\n Press 'Fire' to fire");
   // Handler for .ready() called.
   $.getJSON("model", function( json ) {
     gameModel = json;
@@ -68,7 +68,7 @@ function fire(x, y){
       return;
     }
   }
-  //check if player has hit there yet
+ //check if player has hit a standard ship
     for (var i = 0; i < gameModel.computerHits.length; i++) {
       if(gameModel.computerHits[i].Across == x && gameModel.computerHits[i].Down == y){
         console.log("made it into conditional 2");
@@ -77,6 +77,25 @@ function fire(x, y){
       }
     }
 
+ /*
+ //check if player has hit a civilian ship
+    for (var i = 0; i < gameModel.computerHitsCivShip.length; i++) {
+      if(gameModel.computerHitsCivShip[i].Across == x && gameModel.computerHitsCivShip[i].Down == y){
+        console.log("made it into conditional 2");
+        $('footer #status').text("You have already fired at " + x + ", " + y);
+        return;
+      }
+    }
+ //check if player has hit a CIA ship
+    for (var i = 0; i < gameModel.computerHitsCIAShip.length; i++) {
+      if(gameModel.computerHitsCIAShip[i].Across == x && gameModel.computerHitsCIAShip[i].Down == y){
+        console.log("made it into conditional 2");
+        $('footer #status').text("You have already fired at " + x + ", " + y);
+        return;
+      }
+    }
+
+ */
   request.done(function( currModel ) {
     displayGameState(currModel);
     gameModel = currModel;
@@ -150,8 +169,20 @@ function displayGameState(gameModel){
   }
   for (var i = 0; i < gameModel.computerHits.length; i++) {
     $( '#TheirBoard #' + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).css("background-image", "url(../../../css/images/mortyhead.png)");
-    //snd = new Audio('../../../css/sounds/oh_man.wav');
+
   }
+
+  /*
+  for (var i = 0; i < gameModel.computerHits.length; i++) {
+      $( '#TheirBoard #' + gameModel.computerHitsCivShip[i].Across + '_' + gameModel.computerHitsCivShip[i].Down ).css("background-image", "url(../../../css/images/poopyhead.png)");
+      //snd = new Audio('../../../css/sounds/oh_man.wav');
+    } */
+
+    /*
+  for (var i = 0; i < gameModel.computerHits.length; i++) {
+      $( '#TheirBoard #' + gameModel.computerHitsCIAShip[i].Across + '_' + gameModel.computerHitsCIAShip[i].Down ).css("background-image", "url(../../../css/images/.png)");
+      //snd = new Audio('../../../css/sounds/oh_man.wav');
+    } */
 
   for (var i = 0; i < gameModel.playerMisses.length; i++) {
     $( '#MyBoard #' + gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).css("background-image", "url(../../../css/images/rickhead.png)");
