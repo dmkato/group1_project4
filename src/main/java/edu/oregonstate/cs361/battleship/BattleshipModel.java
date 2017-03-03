@@ -14,6 +14,10 @@ public class BattleshipModel {
     //private Ship cruiser = new Ship("Cruiser",3, new Coordinate(0,0),new Coordinate(0,0));
     //private Ship destroyer = new Ship("Destroyer",2, new Coordinate(0,0),new Coordinate(0,0));
     private Ship submarine = new Ship("Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
+    private Ship clipper = new Ship("Clipper", 3, new Coordinate(0, 0), new Coordinate(0, 0));
+    private Ship dhingy = new Ship("Dhingy", 1, new Coordinate(0, 0), new Coordinate(0, 0));
+    private Ship fisher = new Ship("Fisher", 2, new Coordinate(0, 0), new Coordinate(0, 0));
+
 
     private Ship computer_aircraftCarrier = new Ship("Computer_AircraftCarrier",5, new Coordinate(2,2),new Coordinate(2,7));
     private Ship computer_battleship = new Ship("Computer_Battleship",4, new Coordinate(2,8),new Coordinate(6,8));
@@ -31,6 +35,8 @@ public class BattleshipModel {
     private ArrayList<Coordinate> computerMisses;
     ArrayList<Coordinate> computerHitsCivShip;
     ArrayList<Coordinate> computerHitsCIAShip;
+    ArrayList<Coordinate> playerHitsCivShip;
+    ArrayList<Coordinate> playerHitsCIAShip;
 
     boolean scanResult = false;
 
@@ -41,6 +47,10 @@ public class BattleshipModel {
         playerMisses= new ArrayList<>();
         computerHits = new ArrayList<>();
         computerMisses= new ArrayList<>();
+        computerHitsCivShip = new ArrayList<>();
+        computerHitsCIAShip = new ArrayList<>();
+        playerHitsCivShip = new ArrayList<>();
+        playerHitsCIAShip = new ArrayList<>();
     }
 
 
@@ -49,11 +59,13 @@ public class BattleshipModel {
             return aircraftCarrier;
         } if(shipName.equalsIgnoreCase("battleship")) {
             return battleship;
-        } if(shipName.equalsIgnoreCase("Cruiser")) {
-        return null;
-        } if(shipName.equalsIgnoreCase("destroyer")) {
-            return null;
-        }if(shipName.equalsIgnoreCase("submarine")) {
+        } if(shipName.equalsIgnoreCase("dhingy")) {
+            return dhingy;
+        } if(shipName.equalsIgnoreCase("clipper")) {
+            return clipper;
+        } if(shipName.equalsIgnoreCase("fisher")){
+            return fisher;
+        } if(shipName.equalsIgnoreCase("submarine")) {
             return submarine;
         } else {
             return null;
@@ -68,10 +80,12 @@ public class BattleshipModel {
                 this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+4));
             } if(shipName.equalsIgnoreCase("battleship")) {
                 this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+3));
-            } if(shipName.equalsIgnoreCase("Cruiser")) {
+            } if(shipName.equalsIgnoreCase("dhingy")) {
                 this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+2));
-            } if(shipName.equalsIgnoreCase("destroyer")) {
-                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+1));
+            } if(shipName.equalsIgnoreCase("clipper")) {
+                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
+            } if(shipName.equalsIgnoreCase("fisher"));{
+                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
             }if(shipName.equalsIgnoreCase("submarine")) {
                 this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
             }
@@ -81,10 +95,12 @@ public class BattleshipModel {
                     this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+4,colInt));
                 } if(shipName.equalsIgnoreCase("battleship")) {
                     this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+3,colInt));
-                } if(shipName.equalsIgnoreCase("Cruiser")) {
+                } if(shipName.equalsIgnoreCase("dhingy")) {
                     this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+2,colInt));
-                } if(shipName.equalsIgnoreCase("destroyer")) {
-                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+1,colInt));
+                } if(shipName.equalsIgnoreCase("clipper")) {
+                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
+                } if(shipName.equalsIgnoreCase("fisher"));{
+                    this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
                 }if(shipName.equalsIgnoreCase("submarine")) {
                     this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
                 }
@@ -130,16 +146,17 @@ public class BattleshipModel {
 
         if(aircraftCarrier.covers(coor)){
             playerHits.add(coor);
-
         }else if (battleship.covers(coor)){
-            playerHits.add(coor);
-        }//else if (cruiser.covers(coor)){
-           // playerHits.add(coor);
-        //}else if (destroyer.covers(coor)){
-          //  playerHits.add(coor);
-        else if (submarine.covers(coor)){
-            playerHits.add(coor);
-        } else {
+            playerHitsCIAShip.add(coor);
+        }else if (dhingy.covers(coor)){
+            playerHitsCivShip.add(coor);
+        }else if (clipper.covers(coor)) {
+            playerHitsCivShip.add(coor);
+        }else if (fisher.covers(coor)){
+            playerHitsCivShip.add(coor);
+        }else if (submarine.covers(coor)){
+            playerHitsCIAShip.add(coor);
+        }else {
             playerMisses.add(coor);
         }
     }
@@ -150,28 +167,15 @@ public class BattleshipModel {
         scanResult = false;
         if (computer_aircraftCarrier.scan(coor)) {
             scanResult = true;
-<<<<<<< HEAD
         }
-        else if (computer_battleship.scan(coor)){    // battleship has stealth
-            scanResult = false;
         }else if (computer_cruiser.scan(coor)){
-=======
-        } else if (computer_battleship.scan(coor)) {
-            scanResult = true;
-        } else if (computer_clipper.scan(coor)) {
+	   scanResult = true;
+	} else if (computer_clipper.scan(coor)) {
             scanResult = true;
         } else if (computer_dhingy.scan(coor)) {
->>>>>>> 402f23a539b599498cf3390a9629de7e09fcb91a
             scanResult = true;
         } else if (computer_fisher.scan(coor)) {
             scanResult = true;
-<<<<<<< HEAD
-        }else if (computer_submarine.scan(coor)){   //submarine has stealth
-            scanResult = false;
-=======
-        } else if (computer_submarine.scan(coor)){
-            scanResult = true;
->>>>>>> 402f23a539b599498cf3390a9629de7e09fcb91a
         } else {
             scanResult = false;
         }
