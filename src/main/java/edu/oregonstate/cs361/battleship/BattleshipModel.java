@@ -111,14 +111,19 @@ public class BattleshipModel {
             computerHits.add(coor);
         } else if (computer_battleship.covers(coor)) {
             computerHits.add(coor);
+            // computerHitsCIAShip.add(coor);
         } else if (computer_clipper.covers(coor)) {
             computerHits.add(coor);
+            // computerHitsCivShip.add(coor);
         } else if (computer_dhingy.covers(coor)) {
             computerHits.add(coor);
+            // computerHitsCivShip.add(coor);
         } else if (computer_fisher.covers(coor)) {
             computerHits.add(coor);
+            // computerHitsCivShip.add(coor);
         } else if (computer_submarine.covers(coor)){
             computerHits.add(coor);
+            // computerHitsCIAShip.add(coor);
         } else {
             computerMisses.add(coor);
         }
