@@ -139,9 +139,10 @@ function displayGameState(gameModel){
 
   displayShip(gameModel.aircraftCarrier);
   displayShip(gameModel.battleship);
-  displayShip(gameModel.cruiser);
-  displayShip(gameModel.destroyer);
   displayShip(gameModel.submarine);
+  displayShip(gameModel.clipper);
+  displayShip(gameModel.dhingy);
+  displayShip(gameModel.fisher);
 
 
   for (var i = 0; i < gameModel.computerMisses.length; i++) {
@@ -316,10 +317,11 @@ function pressedRotate(){
 }
 /* Sets up the ship status box */
 function SetUpShipStatus(){
-  var shipLengths = [2, 2, 3, 4, 5];
-  var shipList = ["destroyer", "submarine", "cruiser", "battleship", "aircraftCarrier"];
+  var shipLengths = [2, 3, 4, 5, 1, 2];
+  var shipList = ["submarine", "clipper", "battleship", "aircraftCarrier", "dhingy", "fisher"];
   var table = $("<table>").appendTo('#shipStatus');
-  for (var y = 0; y < 5; y++){
+
+  for (var y = 0; y < 6; y++){
     var tableRow = $("<tr id=" + shipList[y] + ">").appendTo(table);
     for (var x = 1; x <= shipLengths[y]; x++){
       tableRow.append("<td id='" + (y+1) + "_" + x + "'></td>");
