@@ -96,7 +96,7 @@ public class BattleshipModel {
                     this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt));
                 } if(shipName.equalsIgnoreCase("clipper")) {
                 this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 2, colInt));
-                } if(shipName.equalsIgnoreCase("fisher"));{
+                } if(shipName.equalsIgnoreCase("fisher")){
                     this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
                 }if(shipName.equalsIgnoreCase("submarine")) {
                     this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
