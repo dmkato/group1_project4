@@ -9,6 +9,13 @@ public class Ship {
     private Coordinate start;
     private Coordinate end;
 
+    public Ship(){
+        name = "";
+        length = 0;
+        start = null;
+        end = null;
+    }
+
     public Ship(String n, int l,Coordinate s, Coordinate e) {
         name = n;
         length = l;
