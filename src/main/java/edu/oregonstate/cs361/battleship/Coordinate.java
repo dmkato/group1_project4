@@ -7,9 +7,9 @@ public class Coordinate {
     private int Across;
     private int Down;
 
-    public Coordinate(int letter, int number) {
-        Across = letter;
-        Down = number;
+    public Coordinate(int across, int down) {
+        Across = across;
+        Down = down;
     }
 
     public int getDown() {
