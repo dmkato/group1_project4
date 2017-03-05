@@ -46,6 +46,8 @@ function placeShip(ship, x, y, orientation) {
 function fire(x, y){
     scannedCoord = null;
    var lasergun = new Audio('../../../css/sounds/laser.m4a');
+   var morty_talk = new Audio('../../../css/sounds/oh_man.wav');
+   var rick_talk = new Audio('../../../css/sounds/riggity.wav');
 
    lasergun.play();
 
@@ -63,6 +65,7 @@ function fire(x, y){
   //check if player has missed there yet
   for (var i = 0; i < gameModel.computerMisses.length; i++) {
     if(gameModel.computerMisses[i].Across == x && gameModel.computerMisses[i].Down == y){
+      rick_talk.play();
       console.log("made it into conditional 1");
       $('footer #status').text("You have already fired at " + x + ", " + y);
       return;
@@ -75,9 +78,9 @@ function fire(x, y){
         $('footer #status').text("You have already fired at " + x + ", " + y);
         return;
       }
+
     }
 
- /*
  //check if player has hit a civilian ship
     for (var i = 0; i < gameModel.computerHitsCivShip.length; i++) {
       if(gameModel.computerHitsCivShip[i].Across == x && gameModel.computerHitsCivShip[i].Down == y){
@@ -95,7 +98,6 @@ function fire(x, y){
       }
     }
 
- */
   request.done(function( currModel ) {
     displayGameState(currModel);
     gameModel = currModel;
@@ -173,23 +175,31 @@ function displayGameState(gameModel){
 
   }
 
-  /*
-  for (var i = 0; i < gameModel.computerHits.length; i++) {
+  for (var i = 0; i < gameModel.computerHitsCivShip.length; i++) {
       $( '#TheirBoard #' + gameModel.computerHitsCivShip[i].Across + '_' + gameModel.computerHitsCivShip[i].Down ).css("background-image", "url(../../../css/images/poopyhead.png)");
       //snd = new Audio('../../../css/sounds/oh_man.wav');
-    } */
+    }
 
-    /*
-  for (var i = 0; i < gameModel.computerHits.length; i++) {
+  for (var i = 0; i < gameModel.computerHitsCIAShip.length; i++) {
       $( '#TheirBoard #' + gameModel.computerHitsCIAShip[i].Across + '_' + gameModel.computerHitsCIAShip[i].Down ).css("background-image", "url(../../../css/images/.png)");
       //snd = new Audio('../../../css/sounds/oh_man.wav');
-    } */
+    }
 
   for (var i = 0; i < gameModel.playerMisses.length; i++) {
     $( '#MyBoard #' + gameModel.playerMisses[i].Across + '_' + gameModel.playerMisses[i].Down ).css("background-image", "url(../../../css/images/rickhead.png)");
   }
   for (var i = 0; i < gameModel.playerHits.length; i++) {
     $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-color", "red");
+  }
+
+  for (var i = 0; i < gameModel.playerHitsCivShip.length; i++) {
+        $( '#TheirBoard #' + gameModel.playerHitsCivShip[i].Across + '_' + gameModel.playerHitsCivShip[i].Down ).css("background-image", "url(../../../css/images/poopyhead.png)");
+        //snd = new Audio('../../../css/sounds/oh_man.wav');
+      }
+
+for (var i = 0; i < gameModel.playerHitsCIAShip.length; i++) {
+    $( '#TheirBoard #' + gameModel.playerHitsCIAShip[i].Across + '_' + gameModel.playerHitsCIAShip[i].Down ).css("background-image", "url(../../../css/images/.png)");
+    //snd = new Audio('../../../css/sounds/oh_man.wav');
   }
 
   // Show scanned area
