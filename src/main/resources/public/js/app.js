@@ -46,8 +46,8 @@ function placeShip(ship, x, y, orientation) {
 function fire(x, y){
     scannedCoord = null;
    var lasergun = new Audio('../../../css/sounds/laser.m4a');
-   var morty_talk = new Audio('../../../css/sounds/oh_man.wav');
    var rick_talk = new Audio('../../../css/sounds/riggity.wav');
+   var voice;
 
    var voice_delay = 500;
    lasergun.play();
@@ -75,9 +75,18 @@ function fire(x, y){
  //check if player has hit a standard ship
     for (var i = 0; i < gameModel.computerHits.length; i++) {
       if(gameModel.computerHits[i].loc.Across == x && gameModel.computerHits[i].loc.Down == y){
-         setTimeout(function(){
-             morty_talk.play(voice_delay);
-         }, voice_delay);
+
+             if(gameModel.computerHits[i].type == "civ"){
+                    voice = new Audio('../../../css/sounds/ooh_wee.mp4');
+             } else if (gameModel.computerHits[i].type == "CIA"){
+                    voice = new Audio('../../../css/sounds/krom_talk.mp4');
+             } else {
+                    voice = new Audio('../../../css/sounds/oh_man.wav');
+             }
+
+        setTimeout(function(){
+            voice.play(voice_delay);
+        }, voice_delay);
 
         console.log("made it into conditional 2");
         $('footer #status').text("You have already fired at " + x + ", " + y);
@@ -159,9 +168,14 @@ function displayGameState(gameModel){
 
   }
   for (var i = 0; i < gameModel.computerHits.length; i++) {
-    if(gameModel.computerHits[i].type = "default"){
+    if(gameModel.computerHits[i].type == "civ"){
+        $( '#TheirBoard #' + gameModel.computerHits[i].loc.Across + '_' + gameModel.computerHits[i].loc.Down ).css("background-image", "url(../../../css/images/poopyhead.png)");
+    }else if(gameModel.computerHits[i].type == "CIA"){
+        $( '#TheirBoard #' + gameModel.computerHits[i].loc.Across + '_' + gameModel.computerHits[i].loc.Down ).css("background-image", "url(../../../css/images/krommike.png)");
+    }else{
         $( '#TheirBoard #' + gameModel.computerHits[i].loc.Across + '_' + gameModel.computerHits[i].loc.Down ).css("background-image", "url(../../../css/images/mortyhead.png)");
-       }
+    }
+
 
   }
 
