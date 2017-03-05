@@ -97,34 +97,49 @@ public class BattleshipModel {
         return this;
     }
 
-    public void addHittoList(Ship x, Coordinate coor, ArrayList<ShotData> z){
+    public void addToMilitaryHitList(Ship x, Coordinate coor, ArrayList<ShotData> z){
 
         ShotData temp = new ShotData (coor, x.type);
         z.add(temp);
     }
 
+    public void addToCivilianHitList(Ship x, ArrayList<ShotData> z){
+        // Determine Orientation
+        if(x.start.getAcross() != x.end.getAcross()){     // Horizontal
+            for (int i = 0; i < x.getLength(); i++) {
+                Coordinate c = new Coordinate(x.start.getAcross() + i, x.start.getDown());
+                ShotData temp = new ShotData (c, x.type);
+                z.add(temp);
+            }
+        } else {   // Vertical
+            for (int i = 0; i < x.getLength(); i++) {
+                Coordinate c = new Coordinate(x.start.getAcross(), x.start.getDown() + i);
+                ShotData temp = new ShotData (c, x.type);
+                z.add(temp);
+            }
+        }
+    }
 
     public void shootAtComputer(int row, int col) {
         Coordinate coor = new Coordinate(row, col);
         Ship temp;
 
         if (computer_aircraftCarrier.covers(coor)) {
-            temp = computer_aircraftCarrier;
+            addToMilitaryHitList(computer_aircraftCarrier, coor, computerHits);
         } else if (computer_battleship.covers(coor)) {
-            temp = computer_battleship;
+            addToMilitaryHitList(computer_battleship, coor, computerHits);
         } else if (computer_clipper.covers(coor)) {
-            temp = computer_clipper;
+            addToMilitaryHitList(computer_clipper, coor, computerHits);
         } else if (computer_dhingy.covers(coor)) {
-            temp = computer_dhingy;
+            addToCivilianHitList(computer_dhingy, computerHits);
         } else if (computer_fisher.covers(coor)) {
-            temp = computer_fisher;
+            addToCivilianHitList(computer_fisher, computerHits);
         } else if (computer_submarine.covers(coor)){
-            temp = computer_submarine;
+            addToMilitaryHitList(computer_submarine, coor, computerHits);
         } else {
             computerMisses.add(new ShotData (coor, "default"));
             return;
         }
-        addHittoList(temp, coor, computerHits);
     }
 
     public void shootAtPlayer() {
@@ -147,22 +162,21 @@ public class BattleshipModel {
         Ship temp;
 
         if(aircraftCarrier.covers(coor)){
-            temp = aircraftCarrier;
+            addToMilitaryHitList(aircraftCarrier, coor, playerHits);
         }else if (battleship.covers(coor)){
-            temp = battleship;
+            addToMilitaryHitList(battleship, coor, playerHits);
         }else if (dhingy.covers(coor)){
-            temp = dhingy;
+            addToCivilianHitList(dhingy, playerHits);
         }else if (clipper.covers(coor)) {
-            temp = clipper;
+            addToMilitaryHitList(submarine, coor, playerHits);
         }else if (fisher.covers(coor)){
-            temp = fisher;
+            addToCivilianHitList(fisher, playerHits);
         }else if (submarine.covers(coor)){
-            temp = submarine;
+            addToMilitaryHitList(submarine, coor, playerHits);
         }else {
-            playerMisses.add(new ShotData (coor, "default"));
+            playerMisses.add(new ShotData(coor, "default"));
             return;
         }
-        addHittoList(temp, coor, playerHits);
     }
 
     public void scan(int rowInt, int colInt) {
