@@ -49,6 +49,7 @@ function fire(x, y){
    var morty_talk = new Audio('../../../css/sounds/oh_man.wav');
    var rick_talk = new Audio('../../../css/sounds/riggity.wav');
 
+   var voice_delay = 500;
    lasergun.play();
 
   console.log(x);
@@ -74,6 +75,10 @@ function fire(x, y){
  //check if player has hit a standard ship
     for (var i = 0; i < gameModel.computerHits.length; i++) {
       if(gameModel.computerHits[i].loc.Across == x && gameModel.computerHits[i].loc.Down == y){
+         setTimeout(function(){
+             morty_talk.play(voice_delay);
+         }, voice_delay);
+
         console.log("made it into conditional 2");
         $('footer #status').text("You have already fired at " + x + ", " + y);
         return;
@@ -154,7 +159,9 @@ function displayGameState(gameModel){
 
   }
   for (var i = 0; i < gameModel.computerHits.length; i++) {
-    $( '#TheirBoard #' + gameModel.computerHits[i].loc.Across + '_' + gameModel.computerHits[i].loc.Down ).css("background-image", "url(../../../css/images/mortyhead.png)");
+    if(gameModel.computerHits[i].type = "default"){
+        $( '#TheirBoard #' + gameModel.computerHits[i].loc.Across + '_' + gameModel.computerHits[i].loc.Down ).css("background-image", "url(../../../css/images/mortyhead.png)");
+       }
 
   }
 
