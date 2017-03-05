@@ -118,9 +118,7 @@ public class BattleshipModel {
                 z.add(temp);
             }
         }
-
     }
-
 
     public void shootAtComputer(int row, int col) {
         Coordinate coor = new Coordinate(row, col);
