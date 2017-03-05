@@ -43,7 +43,8 @@ html, body, table{
 
 #shipStatus td {
     background-image: url("images/mortyhead.png");
-    background-size: 100%;
+    background-size: 80%;
+    background-repeat: no-repeat;
     border: none
 }
 
