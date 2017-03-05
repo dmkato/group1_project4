@@ -6,7 +6,7 @@ var scannedCoord = null;
 
 /* On page ready.. */
 $( document ).ready(function() {
-    alert("INSTRUCTIONS: \n Press 'Place Ship' button at bottom\n Choose the ship to place, dispayed under 'computer ships remaining.' **Note: Must choose smallest ship first.\n Press 'Rotate Ship' to choose between Horizontal and Vertical. **Note: Default is Horizontal.\n Press 'Fire' to fire");
+    alert("INSTRUCTIONS: \n Press 'Place Ship' button at bottom\n Choose the ship to place, displayed under 'computer ships remaining.' **Note: Must choose smallest ship first.\n Press 'Rotate Ship' to choose between Horizontal and Vertical. **Note: Default is Horizontal.\n Press 'Fire' to fire");
   // Handler for .ready() called.
   $.getJSON("model", function( json ) {
     gameModel = json;
@@ -46,6 +46,8 @@ function placeShip(ship, x, y, orientation) {
 function fire(x, y){
     scannedCoord = null;
    var lasergun = new Audio('../../../css/sounds/laser.m4a');
+   var morty_talk = new Audio('../../../css/sounds/oh_man.wav');
+   var rick_talk = new Audio('../../../css/sounds/riggity.wav');
 
    lasergun.play();
 
@@ -63,18 +65,20 @@ function fire(x, y){
   //check if player has missed there yet
   for (var i = 0; i < gameModel.computerMisses.length; i++) {
     if(gameModel.computerMisses[i].Across == x && gameModel.computerMisses[i].Down == y){
+      rick_talk.play();
       console.log("made it into conditional 1");
       $('footer #status').text("You have already fired at " + x + ", " + y);
       return;
     }
   }
-  //check if player has hit there yet
+ //check if player has hit a standard ship
     for (var i = 0; i < gameModel.computerHits.length; i++) {
       if(gameModel.computerHits[i].Across == x && gameModel.computerHits[i].Down == y){
         console.log("made it into conditional 2");
         $('footer #status').text("You have already fired at " + x + ", " + y);
         return;
       }
+
     }
 
   request.done(function( currModel ) {
@@ -151,7 +155,7 @@ function displayGameState(gameModel){
   }
   for (var i = 0; i < gameModel.computerHits.length; i++) {
     $( '#TheirBoard #' + gameModel.computerHits[i].Across + '_' + gameModel.computerHits[i].Down ).css("background-image", "url(../../../css/images/mortyhead.png)");
-    //snd = new Audio('../../../css/sounds/oh_man.wav');
+
   }
 
   for (var i = 0; i < gameModel.playerMisses.length; i++) {
@@ -161,7 +165,7 @@ function displayGameState(gameModel){
     $( '#MyBoard #' + gameModel.playerHits[i].Across + '_' + gameModel.playerHits[i].Down ).css("background-color", "red");
   }
 
-  // Show scanned area
+ // Show scanned area
   if(scannedCoord != null){
     // Set surrounding squres
     var surroundingCoord = "";
