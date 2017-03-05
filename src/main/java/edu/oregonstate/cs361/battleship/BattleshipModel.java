@@ -26,10 +26,10 @@ public class BattleshipModel {
     private Ship computer_fisher = new CivilianShip("Computer_Fisher", 2, new Coordinate(7, 1), new Coordinate(7, 2));
 
 
-    ArrayList<Coordinate> playerHits;
-    private ArrayList<Coordinate> playerMisses;
-    ArrayList<Coordinate> computerHits;
-    private ArrayList<Coordinate> computerMisses;
+    ArrayList<ShotData> playerHits;
+    ArrayList<ShotData> playerMisses;
+    ArrayList<ShotData> computerHits;
+    ArrayList<ShotData> computerMisses;
 
     boolean scanResult = false;
 
@@ -97,23 +97,34 @@ public class BattleshipModel {
         return this;
     }
 
+    public void addHittoList(Ship x, Coordinate coor, ArrayList<ShotData> z){
+
+        ShotData temp = new ShotData (coor, x.type);
+        z.add(temp);
+    }
+
+
     public void shootAtComputer(int row, int col) {
         Coordinate coor = new Coordinate(row, col);
+        Ship temp;
+
         if (computer_aircraftCarrier.covers(coor)) {
-            computerHits.add(coor);
+            temp = computer_aircraftCarrier;
         } else if (computer_battleship.covers(coor)) {
-            computerHits.add(coor);
+            temp = computer_battleship;
         } else if (computer_clipper.covers(coor)) {
-            computerHits.add(coor);
+            temp = computer_clipper;
         } else if (computer_dhingy.covers(coor)) {
-            computerHits.add(coor);
+            temp = computer_dhingy;
         } else if (computer_fisher.covers(coor)) {
-            computerHits.add(coor);
+            temp = computer_fisher;
         } else if (computer_submarine.covers(coor)){
-            computerHits.add(coor);
+            temp = computer_submarine;
         } else {
-            computerMisses.add(coor);
+            computerMisses.add(new ShotData (coor, "default"));
+            return;
         }
+        addHittoList(temp, coor, computerHits);
     }
 
     public void shootAtPlayer() {
@@ -128,26 +139,30 @@ public class BattleshipModel {
     }
 
     void playerShot(Coordinate coor) {
-        if(playerMisses.contains(coor)){
+        ShotData search = new ShotData(coor, "default");
+        if(playerMisses.contains(search)){
             System.out.println("Dupe");
             this.shootAtPlayer();
         }
+        Ship temp;
 
         if(aircraftCarrier.covers(coor)){
-            playerHits.add(coor);
+            temp = aircraftCarrier;
         }else if (battleship.covers(coor)){
-            playerHits.add(coor);
+            temp = battleship;
         }else if (dhingy.covers(coor)){
-            playerHits.add(coor);
+            temp = dhingy;
         }else if (clipper.covers(coor)) {
-            playerHits.add(coor);
+            temp = clipper;
         }else if (fisher.covers(coor)){
-            playerHits.add(coor);
+            temp = fisher;
         }else if (submarine.covers(coor)){
-            playerHits.add(coor);
+            temp = submarine;
         }else {
-            playerMisses.add(coor);
+            playerMisses.add(new ShotData (coor, "default"));
+            return;
         }
+        addHittoList(temp, coor, playerHits);
     }
 
     public void scan(int rowInt, int colInt) {
