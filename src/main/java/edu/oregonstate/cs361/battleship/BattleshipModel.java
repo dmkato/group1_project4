@@ -11,29 +11,25 @@ import java.util.Random;
 public class BattleshipModel {
 
     private Ship aircraftCarrier = new Ship("AircraftCarrier",5, new Coordinate(0,0),new Coordinate(0,0));
-    private Ship battleship = new Ship("Battleship",4, new Coordinate(0,0),new Coordinate(0,0));
-    private Ship submarine = new Ship("Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
-    private Ship clipper = new Ship("Clipper", 3, new Coordinate(0, 0), new Coordinate(0, 0));
-    private Ship dhingy = new Ship("Dhingy", 1, new Coordinate(0, 0), new Coordinate(0, 0));
-    private Ship fisher = new Ship("Fisher", 2, new Coordinate(0, 0), new Coordinate(0, 0));
+    private Ship battleship = new StealthShip("Battleship",4, new Coordinate(0,0),new Coordinate(0,0));
+    private Ship submarine = new StealthShip("Submarine",2, new Coordinate(0,0),new Coordinate(0,0));
+    private Ship clipper = new CivilianShip("Clipper", 3, new Coordinate(0, 0), new Coordinate(0, 0));
+    private Ship dhingy = new CivilianShip("Dhingy", 1, new Coordinate(0, 0), new Coordinate(0, 0));
+    private Ship fisher = new CivilianShip("Fisher", 2, new Coordinate(0, 0), new Coordinate(0, 0));
 
 
     private Ship computer_aircraftCarrier = new Ship("Computer_AircraftCarrier",5, new Coordinate(2,2),new Coordinate(2,7));
-    private Ship computer_battleship = new Ship("Computer_Battleship",4, new Coordinate(2,8),new Coordinate(6,8));
-    private Ship computer_submarine = new Ship("Computer_Submarine",2, new Coordinate(9,6),new Coordinate(9,8));
-    private Ship computer_clipper = new Ship("Computer_Clipper", 3, new Coordinate(1, 1), new Coordinate(1, 3));
-    private Ship computer_dhingy = new Ship("Computer_Dhingy", 1, new Coordinate(10, 10), new Coordinate(10, 10));
-    private Ship computer_fisher = new Ship("Computer_Fisher", 2, new Coordinate(7, 1), new Coordinate(7, 2));
+    private Ship computer_battleship = new StealthShip("Computer_Battleship",4, new Coordinate(2,8),new Coordinate(6,8));
+    private Ship computer_submarine = new StealthShip("Computer_Submarine",2, new Coordinate(9,6),new Coordinate(9,8));
+    private Ship computer_clipper = new CivilianShip("Computer_Clipper", 3, new Coordinate(1, 1), new Coordinate(1, 3));
+    private Ship computer_dhingy = new CivilianShip("Computer_Dhingy", 1, new Coordinate(10, 10), new Coordinate(10, 10));
+    private Ship computer_fisher = new CivilianShip("Computer_Fisher", 2, new Coordinate(7, 1), new Coordinate(7, 2));
 
 
-    ArrayList<Coordinate> playerHits;
-    private ArrayList<Coordinate> playerMisses;
-    ArrayList<Coordinate> computerHits;
-    private ArrayList<Coordinate> computerMisses;
-    ArrayList<Coordinate> computerHitsCivShip;
-    ArrayList<Coordinate> computerHitsCIAShip;
-    ArrayList<Coordinate> playerHitsCivShip;
-    ArrayList<Coordinate> playerHitsCIAShip;
+    ArrayList<ShotData> playerHits;
+    ArrayList<ShotData> playerMisses;
+    ArrayList<ShotData> computerHits;
+    ArrayList<ShotData> computerMisses;
 
     boolean scanResult = false;
 
@@ -44,10 +40,6 @@ public class BattleshipModel {
         playerMisses= new ArrayList<>();
         computerHits = new ArrayList<>();
         computerMisses= new ArrayList<>();
-        computerHitsCivShip = new ArrayList<>();
-        computerHitsCIAShip = new ArrayList<>();
-        playerHitsCivShip = new ArrayList<>();
-        playerHitsCIAShip = new ArrayList<>();
     }
 
 
@@ -105,28 +97,34 @@ public class BattleshipModel {
         return this;
     }
 
+    public void addHittoList(Ship x, Coordinate coor, ArrayList<ShotData> z){
+
+        ShotData temp = new ShotData (coor, x.type);
+        z.add(temp);
+    }
+
+
     public void shootAtComputer(int row, int col) {
         Coordinate coor = new Coordinate(row, col);
+        Ship temp;
+
         if (computer_aircraftCarrier.covers(coor)) {
-            computerHits.add(coor);
+            temp = computer_aircraftCarrier;
         } else if (computer_battleship.covers(coor)) {
-            computerHits.add(coor);
-            // computerHitsCIAShip.add(coor);
+            temp = computer_battleship;
         } else if (computer_clipper.covers(coor)) {
-            computerHits.add(coor);
-            // computerHitsCivShip.add(coor);
+            temp = computer_clipper;
         } else if (computer_dhingy.covers(coor)) {
-            computerHits.add(coor);
-            // computerHitsCivShip.add(coor);
+            temp = computer_dhingy;
         } else if (computer_fisher.covers(coor)) {
-            computerHits.add(coor);
-            // computerHitsCivShip.add(coor);
+            temp = computer_fisher;
         } else if (computer_submarine.covers(coor)){
-            computerHits.add(coor);
-            // computerHitsCIAShip.add(coor);
+            temp = computer_submarine;
         } else {
-            computerMisses.add(coor);
+            computerMisses.add(new ShotData (coor, "default"));
+            return;
         }
+        addHittoList(temp, coor, computerHits);
     }
 
     public void shootAtPlayer() {
@@ -141,26 +139,30 @@ public class BattleshipModel {
     }
 
     void playerShot(Coordinate coor) {
-        if(playerMisses.contains(coor)){
+        ShotData search = new ShotData(coor, "default");
+        if(playerMisses.contains(search)){
             System.out.println("Dupe");
             this.shootAtPlayer();
         }
+        Ship temp;
 
         if(aircraftCarrier.covers(coor)){
-            playerHits.add(coor);
+            temp = aircraftCarrier;
         }else if (battleship.covers(coor)){
-            playerHitsCIAShip.add(coor);
+            temp = battleship;
         }else if (dhingy.covers(coor)){
-            playerHitsCivShip.add(coor);
+            temp = dhingy;
         }else if (clipper.covers(coor)) {
-            playerHitsCivShip.add(coor);
+            temp = clipper;
         }else if (fisher.covers(coor)){
-            playerHitsCivShip.add(coor);
+            temp = fisher;
         }else if (submarine.covers(coor)){
-            playerHitsCIAShip.add(coor);
+            temp = submarine;
         }else {
-            playerMisses.add(coor);
+            playerMisses.add(new ShotData (coor, "default"));
+            return;
         }
+        addHittoList(temp, coor, playerHits);
     }
 
     public void scan(int rowInt, int colInt) {
