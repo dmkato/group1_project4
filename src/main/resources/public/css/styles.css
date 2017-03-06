@@ -15,7 +15,7 @@ html, body, table{
 
 #legend{
     height: 35px;
-    width: 350px;
+    width: 375px;
 }
 
 #parent {
@@ -42,7 +42,7 @@ html, body, table{
 }
 
 #shipStatus td {
-    background-image: url("images/poopyhead.png");
+    background-image: url("images/mortyhead.png");
     background-size: 80%;
     background-repeat: no-repeat;
     border: none
