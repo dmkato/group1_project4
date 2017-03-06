@@ -17,6 +17,7 @@ $( document ).ready(function() {
   createGameBoards();
   chooseShips();
   SetUpShipStatus();
+  
 });
 
 /* Places Ship based on buttons that no longer exist */
@@ -183,6 +184,12 @@ function displayGameState(gameModel){
     $( '#MyBoard #' + gameModel.playerMisses[i].loc.Across + '_' + gameModel.playerMisses[i].loc.Down ).css("background-image", "url(../../../css/images/rickhead.png)");
   }
   for (var i = 0; i < gameModel.playerHits.length; i++) {
+    if(gameModel.playerHits[i].type == "civ"){
+        $('#MyBoard #' + gameModel.playerHits[i].loc.Across + '_' + gameModel.playerHits[i].loc.Down).css("background-image", "url(../../../css/images/poopyhead.png)");
+    }
+    else if(gameModel.playerHits[i].type == "CIA"){
+        $('#MyBoard #' + gameModel.playerHits[i].loc.Across + '_' + gameModel.playerHits[i].loc.Down).css("background-image", "url(../../../css/images/krommike.png)");
+    }
     $( '#MyBoard #' + gameModel.playerHits[i].loc.Across + '_' + gameModel.playerHits[i].loc.Down ).css("background-color", "red");
   }
 
@@ -209,16 +216,29 @@ function displayShip(ship){
   startCoordDown = ship.start.Down;
   endCoordAcross = ship.end.Across;
   endCoordDown = ship.end.Down;
+
   // console.log(startCoordAcross);
   if(startCoordAcross > 0){
     if(startCoordAcross == endCoordAcross){
       for (i = startCoordDown; i <= endCoordDown; i++) {
         $( '#MyBoard #'+startCoordAcross+'_'+i  ).css("background-image", "url(../../../css/images/mortyhead.png)");
+        if(ship.type == "civ"){
+            $( '#MyBoard #'+startCoordAcross+'_'+i  ).css("background-image", "url(../../../css/images/poopyhead.png)");
+        }
+        else if(ship.type == "CIA"){
+            $( '#MyBoard #'+startCoordAcross+'_'+i  ).css("background-image", "url(../../../css/images/krommike.png)");
+        }
 
       }
     } else {
       for (i = startCoordAcross; i <= endCoordAcross; i++) {
         $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-image", "url(../../../css/images/mortyhead.png)");
+        if(ship.type == "civ"){
+            $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-image", "url(../../../css/images/poopyhead.png)");
+        }
+        else if(ship.type == "CIA"){
+            $( '#MyBoard #'+i+'_'+startCoordDown  ).css("background-image", "url(../../../css/images/krommike.png)");
+        }
       }
     }
   }
@@ -234,7 +254,7 @@ function chooseShips(){
     // Fire or scan Coord
     if(didPressPlaceShip){
         var ship = $(this).attr('id');      //works. Assigns ship1, ship2, ... ship5 to var ship
-        $('footer #status').text(ship + " Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
+        $('footer #status').text(ship + " Choose Start Coordinate On Small Board!");
     } else {
         $('footer #status').text("That is not right.");
     }
@@ -246,7 +266,7 @@ function chooseShips(){
 
       // Fire or scan Coord
       if(didPressPlaceShip){
-        $('footer #status').text("Choose Start Coordinate On Small Board! Choose block to left for left orientation, above for vertical orientation, etc.");
+        $('footer #status').text("Choose Start Coordinate On Small Board!");
       } else {
           $('footer #status').text("That is not right.");
 
@@ -342,8 +362,8 @@ function pressedRotate(){
 }
 /* Sets up the ship status box */
 function SetUpShipStatus(){
-  var shipLengths = [2, 3, 4, 5, 1, 2];
-  var shipList = ["submarine", "clipper", "battleship", "aircraftCarrier", "dhingy", "fisher"];
+  var shipLengths = [1, 2, 3, 2, 4, 5];
+  var shipList = ["dhingy", "fisher", "clipper", "submarine", "battleship", "aircraftCarrier"];
   var table = $("<table>").appendTo('#shipStatus');
 
   for (var y = 0; y < 6; y++){

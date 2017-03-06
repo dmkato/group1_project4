@@ -42,13 +42,15 @@ html, body, table{
 }
 
 #shipStatus td {
-    background-image: url("images/mortyhead.png");
+    background-image: url("images/poopyhead.png");
     background-size: 80%;
     background-repeat: no-repeat;
     border: none
 }
 
 #shipStatus tr {
+
+}
 
 }
 
