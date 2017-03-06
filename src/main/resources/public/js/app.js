@@ -177,8 +177,6 @@ function displayGameState(gameModel){
     }else{
         $( '#TheirBoard #' + gameModel.computerHits[i].loc.Across + '_' + gameModel.computerHits[i].loc.Down ).css("background-image", "url(../../../css/images/mortyhead.png)");
     }
-
-
   }
 
   for (var i = 0; i < gameModel.playerMisses.length; i++) {
@@ -250,9 +248,7 @@ function chooseShips(){
   //Make #shipStatus touchable
   $('#shipStatus').on("click", "tr", function() {
 
-    // // Display Coords in footer
-
-    // Fire or scan Coord
+    // Choose Ship
     if(didPressPlaceShip){
         var ship = $(this).attr('id');      //works. Assigns ship1, ship2, ... ship5 to var ship
         $('footer #status').text(ship + " Choose Start Coordinate On Small Board!");
@@ -275,25 +271,25 @@ function chooseShips(){
       var orientation = didPressRotate;
 
       placeShip(ship, coords[0], coords[1], orientation);
-
-      // Make grid touchable to fire at
-      $('#TheirBoard').on("click", "td", function() {
-
-        // // Display Coords in footer
-        var tdId = $(this).attr('id');
-        var coords = tdId.split("_");
-
-        // Fire or scan Coord
-        if(didPressScan){
-          scan(coords[0], coords[1]);
-            $('footer #status').text("Scaned " + coords[0] + ", " + coords[1]);
-            scannedCoord = tdId;
-            displayGameState(gameModel);
-        } else {
-          fire(coords[0], coords[1]);
-        }
-      });
     });
+  });
+
+  // Make grid touchable to fire at
+  $('#TheirBoard').on("click", "td", function() {
+
+    // // Display Coords in footer
+    var tdId = $(this).attr('id');
+    var coords = tdId.split("_");
+
+    // Fire or scan Coord
+    if(didPressScan){
+      scan(coords[0], coords[1]);
+        $('footer #status').text("Scaned " + coords[0] + ", " + coords[1]);
+        scannedCoord = tdId;
+        displayGameState(gameModel);
+    } else {
+      fire(coords[0], coords[1]);
+    }
   });
 
 }
