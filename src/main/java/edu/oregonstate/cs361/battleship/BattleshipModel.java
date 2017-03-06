@@ -129,7 +129,7 @@ public class BattleshipModel {
         } else if (computer_battleship.covers(coor)) {
             addToMilitaryHitList(computer_battleship, coor, computerHits);
         } else if (computer_clipper.covers(coor)) {
-            addToMilitaryHitList(computer_clipper, coor, computerHits);
+            addToCivilianHitList(computer_clipper, computerHits);
         } else if (computer_dhingy.covers(coor)) {
             addToCivilianHitList(computer_dhingy, computerHits);
         } else if (computer_fisher.covers(coor)) {
@@ -148,10 +148,26 @@ public class BattleshipModel {
         Random random = new Random();
         int randRow = random.nextInt(max - min + 1) + min;
         int randCol = random.nextInt(max - min + 1) + min;
-
         Coordinate coor = new Coordinate(randRow,randCol);
+
+        // Check for duplicates
+        for (ShotData s: computerHits) {
+            if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
+                shootAtPlayer();
+                playerShot(coor);
+                return;
+            }
+        }
+        for (ShotData s: computerMisses) {
+            if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
+                shootAtPlayer();
+                playerShot(coor);
+                return;
+            }
+        }
         playerShot(coor);
     }
+
 
     void playerShot(Coordinate coor) {
         ShotData search = new ShotData(coor, "default");
@@ -168,7 +184,7 @@ public class BattleshipModel {
         }else if (dhingy.covers(coor)){
             addToCivilianHitList(dhingy, playerHits);
         }else if (clipper.covers(coor)) {
-            addToMilitaryHitList(submarine, coor, playerHits);
+            addToCivilianHitList(clipper, playerHits);
         }else if (fisher.covers(coor)){
             addToCivilianHitList(fisher, playerHits);
         }else if (submarine.covers(coor)){
