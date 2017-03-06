@@ -10,14 +10,15 @@ $( document ).ready(function() {
   // Handler for .ready() called.
   $.getJSON("model", function( json ) {
     gameModel = json;
-    console.log( "JSON Data: " + json );
+    gmString = JSON.stringify(gameModel)
+    console.log( "JSON Data: " + gmString);
   });
 
   // Create gameBoards
   createGameBoards();
   chooseShips();
   SetUpShipStatus();
-  
+
 });
 
 /* Places Ship based on buttons that no longer exist */
