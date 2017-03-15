@@ -98,7 +98,8 @@ public class Hard {
         String x, y;
         int max = 10; //bojack: usually these types of variables would be global constants instead of local ints
         int min = 1;  //that way if we wanted to expand the board to 25x25 we would only have to change the constants
-                      //we're not currently using any of those though.
+                      //you're also using these values elsewhere in the file. that's why I mention it.
+        
         int randIterator = random.nextInt(2) + 1;   //random num 1 or 2
         int randRow = random.nextInt(max - min + 1) + min, randCol = random.nextInt(max - min + 1) + min;
 
@@ -127,10 +128,15 @@ public class Hard {
         Random random = new Random();
         int randRow=0, randCol=0;
 
+        /*bojack: you might want to make the following piece of code a separate method. that way you can compare coordinate types
+        in several functions. Implementing this in another class may be useful for a few other objectives. Either way,
+        you can use that for the conditional below.*/
+        
         //check if shot was hit or miss:
         //if(coords == hit) flag = true
         //else  flag = false
 
+        /*bojack: your flag is commented out above. this if loop needs a different conditional.*/
         if(!flag){  //if coordinates were a miss, select random coordinates
             randRow = random.nextInt(max - min + 1) + min;
             randCol = random.nextInt(max - min + 1) + min;
