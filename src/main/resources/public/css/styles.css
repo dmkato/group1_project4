@@ -21,13 +21,13 @@ html, body, table{
 #parent {
     text-align: left;
     width: 350px;
-    height: 175px;
+    height: 180px;
     margin: 0 auto;
 }
 
 #parent table{
     width: 175px;
-    height: 175px;
+    height: 180px;
 }
 
 #parent td {
@@ -37,17 +37,15 @@ html, body, table{
 #shipStatus {
     float:left;
     width: 175px;
-    height: 175px;
+    height: 30px;
     padding-right: 0.5%;
 }
-
 #shipStatus td {
     background-image: url("images/mortyhead.png");
     background-size: 80%;
     background-repeat: no-repeat;
     border: none
 }
-
 #shipStatus tr {
 
 }
@@ -56,7 +54,7 @@ html, body, table{
 
 #MyBoard {
     width: 175px;
-    height: 175px;
+    height: 180px;
     overflow: hidden;
 }
 
@@ -120,7 +118,7 @@ img {
 }
 
 #rotateShipBtn{
-    visibility: hidden;
+
 }
 
 /* Jake's styles */
