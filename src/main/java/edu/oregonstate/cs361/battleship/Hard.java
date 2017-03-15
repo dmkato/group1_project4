@@ -21,7 +21,8 @@ public class Hard {
     private boolean flag = false;
 
     BattleshipModel model = new BattleshipModel();
-
+    
+    /*bojack: this method is clever, preventing the ships from existing in the same squares. Good job*/
     //function follows the noCollision. It checks the opposite direction of what was tested in noCollision
     public boolean checkDecrement(int Row, int Col, String direction, int length, int start){    //checks decrement for noCollision function
         for(int x=start; x>=length+start; x--){ //want to decrement for length of ship
@@ -41,6 +42,7 @@ public class Hard {
 
         return true;
     }
+
     //function checks for collisions with random placement
     public boolean noCollision(int Row, int Col, String direction, String shipName){
         int length=0;
@@ -77,12 +79,16 @@ public class Hard {
         return true;
     }
 
+    /*bojack: this function may end up being in a different class.*/
+    /*wongnich: I was thinking about that, but the easy mode and hard mode have different ship placement attributes*/
     //places ships randomly
     public void place() {
         Random random = new Random();
         String x, y;
-        int max = 10;
-        int min = 1;
+        int max = 10; //bojack: usually these types of variables would be global constants instead of local ints
+        int min = 1;  //that way if we wanted to expand the board to 25x25 we would only have to change the constants
+                      //you're also using these values elsewhere in the file. that's why I mention it.
+        
         int randIterator = random.nextInt(2) + 1;   //random num 1 or 2
         int randRow = random.nextInt(max - min + 1) + min, randCol = random.nextInt(max - min + 1) + min;
 
@@ -103,6 +109,7 @@ public class Hard {
 
     }
 
+    
     //function that takes in previous coordinates fired, and decides where to fire based on input
     public /*Coordinate*/ void fire(/*Coordinate prev*/){
         int max = 10;
@@ -110,14 +117,21 @@ public class Hard {
         Random random = new Random();
         int randRow=0, randCol=0;
 
+        /*bojack: you might want to make the following piece of code a separate method. that way you can compare coordinate types
+        in several functions. Implementing this in another class may be useful for a few other objectives. Either way,
+        you can use that for the conditional below.*/
+        
         //check if shot was hit or miss:
         //if(coords == hit) flag = true
         //else  flag = false
 
+        /*bojack: your flag is commented out above. this if loop needs a different conditional.*/
         if(!flag){  //if coordinates were a miss, select random coordinates
             randRow = random.nextInt(max - min + 1) + min;
             randCol = random.nextInt(max - min + 1) + min;
         }
+        
+        /*bojack: you need a way to store shotdata from previous shots fired. that way it doesn't shoot the same place twice.*/
         else {  //otherwise select coordinates nearby previous coordinates
             //simply go: maxCols = cols+1, maxRows = rows+1
             //           minCols = cols-1, minRows = rows-1
@@ -126,20 +140,21 @@ public class Hard {
         }
         Coordinate coor = new Coordinate(randRow, randCol);
 
-
+        /*bojack: the idea behind this makes sense.
+            Daniel and I may change the class structure so the . objects may change in the near future.*/
         // Check for duplicates
         for (ShotData s: model.computerHits) {
             if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
                 model.shootAtPlayer();
                 model.playerShot(coor);
-                return;
+                return; 
             }
         }
         for (ShotData s: model.computerMisses) {
             if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
                 model.shootAtPlayer();
                 model.playerShot(coor);
-                return;
+                return; 
             }
         }
 
