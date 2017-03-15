@@ -6,26 +6,17 @@ import java.util.StringJoiner;
 /**
  * Created by wongnich on 3/14/17.
  */
+/*
+This implements a hard mode for the game battleship:
+The computer will randomly place its ships at the start of each game. None of the ships will be placed on top of each other (collision)
+The computer will continue firing randomly until it hits a player ship. It will then fire at a nearby location.
+    If it misses, it will fire randomly again, if it hits again, it will fire at another nearby location and so on.
+ */
+
 public class Hard {
 
-    //check to see if we want to fire randomly or not:
-    //check to see if previous coordinates hit a ship, if so don't choose next coordinates randomly:
-    //if(!flag): // flag set to false means no ship was hit
-
-    //hardmode:
-    //should fire at nearby locations if a player ship is hit
-    //should then fire in a contiguous line (smart firing)
-        /*
-        else:
-            check if prev coord is a hit (is coor in computerHits?):
-                fire at left, right, top, or bottom position (relative to coords)
-            if (ship sink):
-                set flag to false -> so it will continue firing randomly
-         */
-
-
     private String[] shipName = {"aircraftCarrier", "battleship", "submarine", "clipper", "dhingy", "fisher"};
-    private String[] direction = {"up", "down"};
+    private String[] direction = {"horizontal", "vertical"};
     private int[][] board = new int[10][10];    //simulate game board 0's - free, 1's not free , all values are 0 by default
     private boolean flag = false;
 
@@ -33,19 +24,19 @@ public class Hard {
 
     //function follows the noCollision. It checks the opposite direction of what was tested in noCollision
     public boolean checkDecrement(int Row, int Col, String direction, int length, int start){    //checks decrement for noCollision function
-        for(int x=start; x>=0; x--){
-            //if(Row-length <0 || Col-length<0)   return false;   //we already checked bounds
-            if(direction=="up"){
+        for(int x=start; x>=length+start; x--){ //want to decrement for length of ship
+            //if(Row-length <0 || Col-length<0)   return false;   //we already checked bounds in noCollision
+            if(direction=="vertical"){
                 if(board[x][Col]==1)   return false;   //there is no way to place the ship (down->up, or up->down)
             }
-            else if(direction=="down"){
+            else if(direction=="horizontal"){
                 if(board[Row][x]==1)    return false;   //collision occurred
             }
         }
         //otherwise conditions passed, we can place ship, first fill the simulated board
-        for(int i=start; i>=0; i--){
-            if(direction=="up") board[start][Col]=1;
-            else if(direction=="down")  board[Row][start]=1;
+        for(int i=start; i>=length+start; i--){
+            if(direction=="vertical") board[i][Col]=1;
+            else if(direction=="horizontal")  board[Row][i]=1;
         }
 
         return true;
@@ -64,23 +55,23 @@ public class Hard {
 
         //if the ship will never collide with current layout, then return true, otherwise return false
         //set the board accordingly if there is no collision
-        if(direction=="up") start = Row;    //will only increment/decrement the Rows
+        if(direction=="vertical") start = Row;    //will only increment/decrement the Rows
         else    start = Col;                //will only increment/decrement the Cols
 
         for(int x=start; x<length; x++){
             if(Row+length >=10 || Col+length >= 10 || Row-length <0 || Col-length <0)    return false;   //this means out of bounds
-            if(direction=="up"){    //will be placing vertical, only rows are changing
+            if(direction=="horizontal"){    //will be placing horizontally, only cols are changing
                 if(board[x][Col]==1)   return checkDecrement(Row, Col, direction, length, start);   //if any spots in line of path are 1, then checkDecrement
             }
-            else if(direction=="down"){ //will be placing horizontally, only cols are changing
+            else if(direction=="vertical"){ //will be placing vertically, only rows are changing
                 if(board[Row][x]==1)    return checkDecrement(Row, Col, direction, length, start);
             }
         }
 
         //conditions passed, we can place ships
         for(int i=start; i<length; i++){
-            if(direction=="up")    board[start][Col] = 1;      //set position to "filled"
-            else if(direction=="down") board[Row][start] = 1;
+            if(direction=="vertical")    board[i][Col] = 1;      //set position to "filled"
+            else if(direction=="horizontal") board[Row][i] = 1;
         }
 
         return true;
