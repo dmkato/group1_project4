@@ -26,11 +26,14 @@ public class Hard {
 
     private String[] shipName = {"aircraftCarrier", "battleship", "submarine", "clipper", "dhingy", "fisher"};
     private String[] direction = {"up", "down"};
+    /*bojack: this int board is an interesting idea. using an array like this works well for error handling.
+        you really needed this for the iterative loops later on*/
     private int[][] board = new int[10][10];    //simulate game board 0's - free, 1's not free , all values are 0 by default
     private boolean flag = false;
 
     BattleshipModel model = new BattleshipModel();
-
+    
+    /*bojack: this method is clever, preventing the ships from existing in the same squares. Good job*/
     //function follows the noCollision. It checks the opposite direction of what was tested in noCollision
     public boolean checkDecrement(int Row, int Col, String direction, int length, int start){    //checks decrement for noCollision function
         for(int x=start; x>=0; x--){
@@ -50,6 +53,8 @@ public class Hard {
 
         return true;
     }
+    
+    /*bojack: this is a good error handling function*/
     //function checks for collisions with random placement
     public boolean noCollision(int Row, int Col, String direction, String shipName){
         int length=0;
@@ -86,12 +91,14 @@ public class Hard {
         return true;
     }
 
+    /*bojack: this function may end up being in a different class.*/
     //places ships randomly
     public void place() {
         Random random = new Random();
         String x, y;
-        int max = 10;
-        int min = 1;
+        int max = 10; //bojack: usually these types of variables would be global constants instead of local ints
+        int min = 1;  //that way if we wanted to expand the board to 25x25 we would only have to change the constants
+                      //we're not currently using any of those though.
         int randIterator = random.nextInt(2) + 1;   //random num 1 or 2
         int randRow = random.nextInt(max - min + 1) + min, randCol = random.nextInt(max - min + 1) + min;
 
@@ -112,6 +119,7 @@ public class Hard {
 
     }
 
+    
     //function that takes in previous coordinates fired, and decides where to fire based on input
     public /*Coordinate*/ void fire(/*Coordinate prev*/){
         int max = 10;
@@ -127,6 +135,8 @@ public class Hard {
             randRow = random.nextInt(max - min + 1) + min;
             randCol = random.nextInt(max - min + 1) + min;
         }
+        
+        /*bojack: you need a way to store shotdata from previous shots fired. that way it doesn't shoot the same place twice.*/
         else {  //otherwise select coordinates nearby previous coordinates
             //simply go: maxCols = cols+1, maxRows = rows+1
             //           minCols = cols-1, minRows = rows-1
@@ -135,20 +145,21 @@ public class Hard {
         }
         Coordinate coor = new Coordinate(randRow, randCol);
 
-
+        /*bojack: the idea behind this makes sense.
+            Daniel and I may change the class structure so the . objects may change in the near future.*/
         // Check for duplicates
         for (ShotData s: model.computerHits) {
             if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
                 model.shootAtPlayer();
                 model.playerShot(coor);
-                return;
+                return; 
             }
         }
         for (ShotData s: model.computerMisses) {
             if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
                 model.shootAtPlayer();
                 model.playerShot(coor);
-                return;
+                return; 
             }
         }
 
