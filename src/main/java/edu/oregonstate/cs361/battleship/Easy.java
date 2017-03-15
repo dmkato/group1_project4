@@ -6,11 +6,9 @@ import java.util.StringJoiner;
 /**
  * Created by guita on 3/13/2017.
  */
-public class Easy {
+public class Easy extends BattleshipModel{
     //place ships
     private String[] shipName = {"aircraftCarrier", "battleship", "submarine", "dhingy", "clipper", "fisher"};
-
-    BattleshipModel model = new BattleshipModel();
 
     private int convertToInt(){
 
@@ -18,14 +16,14 @@ public class Easy {
     }
 
     //place ships
-    public void place() {
+    public void ComputerPlaceShip() {
         String x = "0", y = "0";
         int numX = 0, numY = 0, z = 0;    //x = x-coord, y = y-coord, z = helper in placing
 
         //need to send all string variable to BattleshipModel.placd()
         for(int i = 0; i < 6; i++){
             //first place aircraftCarrier
-            model.placeShip(shipName[i], x, y, "down");
+            placeShip(shipName[i], x, y, "down");
 
             if(i == 0){
                 int placeHolder;
@@ -95,40 +93,40 @@ public class Easy {
                 coor.setAcross(j);
 
                 //check for duplicates
-                for(ShotData s : model.computerHits){
+                for(ShotData s : computerHits){
                     if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
-                        model.shootAtPlayer();
-                        model.playerShot(coor);
+                        shootAtPlayer();
+                        playerShot(coor);
                         return;
                     }
                 }
-                for(ShotData s : model.computerMisses){
+                for(ShotData s : computerMisses){
                     if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
-                        model.shootAtPlayer();
-                        model.playerShot(coor);
+                        shootAtPlayer();
+                        playerShot(coor);
                         return;
                     }
                 }
             }
         }
-        model.playerShot(coor);
+        playerShot(coor);
         for(int i = 0; i < 10; i++){
             for(int j = 1; j < 10; j=j+2){
                 coor.setDown(i);
                 coor.setAcross(j);
 
                 //check for duplicates
-                for(ShotData s : model.computerHits){
+                for(ShotData s : computerHits){
                     if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
-                        model.shootAtPlayer();
-                        model.playerShot(coor);
+                        shootAtPlayer();
+                        playerShot(coor);
                         return;
                     }
                 }
-                for(ShotData s : model.computerMisses){
+                for(ShotData s : computerMisses){
                     if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
-                        model.shootAtPlayer();
-                        model.playerShot(coor);
+                        shootAtPlayer();
+                        playerShot(coor);
                         return;
                     }
                 }
