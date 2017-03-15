@@ -4,10 +4,12 @@ var didPressPlaceShip = true;
 var didPressEasy = true;
 var didPressRotate = "horizontal";
 var scannedCoord = null;
+var gameMode = "Easy"
 
 /* On page ready.. */
 $( document ).ready(function() {
     alert("INSTRUCTIONS: \n Press 'Place Ship' button at bottom\n Choose the ship to place, displayed under 'computer ships remaining.' **Note: Must choose smallest ship first.\n Press 'Rotate Ship' to choose between Horizontal and Vertical. **Note: Default is Horizontal.\n Press 'Fire' to fire");
+
   // Handler for .ready() called.
   $.getJSON("model", function( json ) {
     gameModel = json;
@@ -59,7 +61,7 @@ function fire(x, y){
   console.log(y);
   //var menuId = $( "ul.nav" ).first().attr( "id" );
   var request = $.ajax({
-    url: "/fire/"+x+"/"+y,
+    url: "/fire/"+x+"/"+y+"/"+gameMode,
     method: "post",
     data: JSON.stringify(gameModel),
     contentType: "application/json; charset=utf-8",
@@ -322,7 +324,7 @@ function createGameBoards() {
 /* Is called when the user presses 'scan' button */
 function pressedScan(){
   didPressScan = true;
-  $('#rotateShipBtn').css("visibility", "hidden");
+  $('#rotateShipBtn').css("display", "none");
   $('#scanBtn').addClass('btn-success');
   $('#fireBtn').removeClass('btn-success');
   $('#placeShipBtn').removeClass('btn-success');
@@ -332,7 +334,7 @@ function pressedScan(){
 /* Is called when the user presses 'fire' button */
 function pressedFire(){
   didPressScan = false;
-  $('#rotateShipBtn').css("visibility", "hidden");
+  $('#rotateShipBtn').css("display", "none");
   $('#fireBtn').addClass('btn-success');
   $('#scanBtn').removeClass('btn-success');
   $('#placeShipBtn').removeClass('btn-success');
@@ -342,17 +344,31 @@ function pressedFire(){
 function pressedPlaceShip(){
   didPressScan = false;
   didPressPlaceShip = true;
-  $('#rotateShipBtn').css("visibility", "visible");
+  $('#rotateShipBtn').css("display", ""); // Empty display string reveals button
 
   $('#placeShipBtn').addClass('btn-success');
   $('#fireBtn').removeClass('btn-success');
   $('#scanBtn').removeClass('btn-success');
   $('#rotateShipBtn').removeClass('btn-success');
 }
+
 function pressedEasy(){
     didPressScan = false;
-    didPressPlaceShip = true;
+    didPressPlaceShip = false;
     didPressEasy = true;
+
+    if(gameMode == "Easy"){ // Easy mode
+      gameMode = "Hard";
+      $('#easyBtn').text("Hard mode");
+      $('#easyBtn').removeClass('btn-success');
+      $('#easyBtn').addClass('btn-danger');
+
+    } else {  // Hard mode
+      gameMode = "Easy";
+      $('#easyBtn').text("Easy mode");
+      $('#easyBtn').removeClass('btn-danger');
+      $('#easyBtn').addClass('btn-success');
+    }
 }
 
 function pressedRotate(){

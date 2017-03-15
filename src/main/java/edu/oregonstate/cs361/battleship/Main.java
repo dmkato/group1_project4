@@ -17,7 +17,7 @@ public class Main {
         //This will listen to GET requests to /model and return a clean new model
         get("/model", (req, res) -> newModel());
         //This will listen to POST requests and expects to receive a game model, as well as location to fire to
-        post("/fire/:row/:col", (req, res) -> fireAt(req));
+        post("/fire/:row/:col/:mode", (req, res) -> fireAt(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to scan
         post("/scan/:row/:col", (req, res) -> scan(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to place the ship
@@ -58,10 +58,18 @@ public class Main {
 
     private static String fireAt(Request req) {
         BattleshipModel currModel = getModelFromReq(req);
+
         String row = req.params("row");
         String col = req.params("col");
+        String mode = req.params("mode");
         int rowInt = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
+
+        if(mode.equals("Hard"))        // Update mode
+            currModel.gameMode = true;
+        else
+            currModel.gameMode = false;
+
         currModel.shootAtComputer(rowInt,colInt);
         currModel.shootAtPlayer();
         Gson gson = new Gson();
