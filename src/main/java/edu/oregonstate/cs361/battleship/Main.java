@@ -57,7 +57,6 @@ public class Main {
     }
 
     private static String fireAt(Request req) {
-
         BattleshipModel currModel = getModelFromReq(req);
         String row = req.params("row");
         String col = req.params("col");
