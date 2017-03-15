@@ -1,6 +1,7 @@
 var gameModel;
 var didPressScan;
 var didPressPlaceShip = true;
+var didPressEasy = true;
 var didPressRotate = "horizontal";
 var scannedCoord = null;
 
@@ -46,7 +47,7 @@ function placeShip(ship, x, y, orientation) {
 
 /* Fires at coordinates x, y */
 function fire(x, y){
-    scannedCoord = null;
+   scannedCoord = null;
    var lasergun = new Audio('../../../css/sounds/laser.m4a');
    var rick_talk = new Audio('../../../css/sounds/riggity.wav');
    var voice;
@@ -347,6 +348,11 @@ function pressedPlaceShip(){
   $('#fireBtn').removeClass('btn-success');
   $('#scanBtn').removeClass('btn-success');
   $('#rotateShipBtn').removeClass('btn-success');
+}
+function pressedEasy(){
+    didPressScan = false;
+    didPressPlaceShip = true;
+    didPressEasy = true;
 }
 
 function pressedRotate(){
