@@ -143,6 +143,7 @@ public class BattleshipModel {
         }
     }
 
+
     public void shootAtPlayer(/*might need to pass in previous coordinates: Coordinate coor*/) {
 
         //check to see if we want to fire randomly or not:
@@ -160,9 +161,8 @@ public class BattleshipModel {
         //should then fire in a contiguous line (smart firing)
         /*
         else:
-            check if prev coord is a hit:
-                continue firing in that direction (right, left, up, down)
-            else:   fire at left, right, top, or bottom position (relative to coords)
+            check if prev coord is a hit (is coor in computerHits?):
+                fire at left, right, top, or bottom position (relative to coords)
             if (ship sink):
                 set flag to false -> so it will continue firing randomly
          */
