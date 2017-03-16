@@ -46,11 +46,12 @@ html, body, table{
     background-repeat: no-repeat;
     border: none
 }
-#shipStatus tr {
 
+.btn-lg {
+    margin-top: 90px;
+    margin-left: 30px;
 }
 
-}
 
 #MyBoard {
     width: 175px;

@@ -6,7 +6,7 @@ import java.util.StringJoiner;
 /**
  * Created by guita on 3/13/2017.
  */
-public class Easy {
+public class Easy extends BattleshipModel{
     //place ships
     private String[] shipName = {"aircraftCarrier", "battleship", "submarine", "dhingy", "clipper", "fisher"};
 

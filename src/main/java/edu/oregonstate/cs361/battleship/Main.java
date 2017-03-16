@@ -1,6 +1,7 @@
 package edu.oregonstate.cs361.battleship;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.regexp.internal.RE;
 import spark.Request;
 
 import java.io.UnsupportedEncodingException;
@@ -15,9 +16,9 @@ public class Main {
         staticFiles.location("/public");
 
         //This will listen to GET requests to /model and return a clean new model
-        get("/model", (req, res) -> newModel());
+        get("/model/:mode", (req, res) -> newModel(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to fire to
-        post("/fire/:row/:col/:mode", (req, res) -> fireAt(req));
+        post("/fire/:row/:col/", (req, res) -> fireAt(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to scan
         post("/scan/:row/:col", (req, res) -> scan(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to place the ship
@@ -25,8 +26,17 @@ public class Main {
     }
 
     //This function returns a new model
-    private static String newModel() {
-        BattleshipModel bm = new BattleshipModel();
+    private static String newModel(Request req) {
+        String mode = req.params("mode");
+        BattleshipModel bm;
+
+        // Choose mode
+        if (mode.equals("Hard")){
+            bm = new Hard();
+        } else {
+            bm = new Easy();
+        }
+
         Gson gson = new Gson();
         return gson.toJson(bm);
     }
@@ -64,11 +74,6 @@ public class Main {
         String mode = req.params("mode");
         int rowInt = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
-
-        if(mode.equals("Hard"))        // Update mode
-            currModel.gameMode = true;
-        else
-            currModel.gameMode = false;
 
         currModel.shootAtComputer(rowInt,colInt);
         currModel.shootAtPlayer();
