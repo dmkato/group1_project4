@@ -2,6 +2,8 @@ package edu.oregonstate.cs361.battleship;
 
 import java.util.Random;
 import java.util.StringJoiner;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wongnich on 3/14/17.
@@ -13,13 +15,17 @@ The computer will continue firing randomly until it hits a player ship. It will 
     If it misses, it will fire randomly again, if it hits again, it will fire at another nearby location and so on.
  */
 
-public class Hard {
+public class Hard extends BattleshipModel{
 
+    private ArrayList<Coordinate> computerShots;  //contains list of computer shots
+    private Coordinate lastShot = null;    //variable to store last attempted shot, used in later function. null to specify initial state
     private String[] shipName = {"aircraftCarrier", "battleship", "submarine", "clipper", "dhingy", "fisher"};
     private String[] direction = {"horizontal", "vertical"};
     private int[][] board = new int[10][10];    //simulate game board 0's - free, 1's not free , all values are 0 by default
-    private boolean flag = false;
+    private int BOARD_SIZE = 10;     //Board dimensions
+    private Random random = new Random();
 
+    //probably don't need this with the inheritance
     BattleshipModel model = new BattleshipModel();
     
     /*bojack: this method is clever, preventing the ships from existing in the same squares. Good job*/
@@ -44,6 +50,7 @@ public class Hard {
     }
 
     //function checks for collisions with random placement
+    //returns validity of ship placement
     public boolean noCollision(int Row, int Col, String direction, String shipName){
         int length=0;
         int start;
@@ -109,39 +116,88 @@ public class Hard {
 
     }
 
-    
-    //function that takes in previous coordinates fired, and decides where to fire based on input
-    public /*Coordinate*/ void fire(/*Coordinate prev*/){
-        int max = 10;
+    //function to check whether computer has shot there or not
+    //returns validity of shot
+    public boolean checkShot(Coordinate coor){
+        //if computer has shot there before
+        if(model.computerHits.contains(coor) || model.computerMisses.contains(coor))    return false;
+        //otherwise computer has not yet shot there
+        return true;
+    }
+
+    //Function will randomly fire at player (no duplicate shots)
+    public void randFire(int max, int min){
+        int randRow = random.nextInt(max - min + 1) + min;
+        int randCol = random.nextInt(max - min + 1) + min;
+        Coordinate coor = new Coordinate(randRow, randCol);
+        //do not allow duplicate shots
+        while(computerShots.contains(coor)){
+            randRow = random.nextInt(max - min + 1) + min;
+            randCol = random.nextInt(max - min + 1) + min;
+            coor = new Coordinate(randRow, randCol);
+        }
+        //update the lastShot variable
+        lastShot = coor;
+        playerShot(coor);   //shoot at coords
+        //update the computerShots array
+        computerShots.add(0,coor);
+
+    }
+
+    //Function will fire at area around last shot (up, down, left, right) Also no duplicate shots
+    public void smartFire(int max, int min){
+        int rand;
+        Coordinate coor = lastShot;
+        //do not allow duplicate shots
+        while(computerShots.contains(coor)){
+            rand = random.nextInt(4) + 1;   //to select up, down, left, or right
+
+            //shoot nearby the last coordinate
+            if(rand==1){    //up
+                coor.setDown(coor.getDown()-1);
+            }
+            else if(rand==2){   //down
+                coor.setDown(coor.getDown()+1);
+            }
+            else if(rand==3){   //left
+                coor.setAcross(coor.getAcross()-1);
+            }
+            else{               //right
+                coor.setAcross(coor.getAcross()+1);
+            }
+        }
+
+        //update the lastShot variable
+        lastShot = coor;
+        playerShot(coor);       //shoot at the player
+        //update the computerShots array
+        computerShots.add(0, coor);
+
+    }
+
+    //Function will fire "smartly"
+    public void fire(){
+        int max = BOARD_SIZE;
         int min = 1;
-        Random random = new Random();
-        int randRow=0, randCol=0;
 
         /*bojack: you might want to make the following piece of code a separate method. that way you can compare coordinate types
         in several functions. Implementing this in another class may be useful for a few other objectives. Either way,
         you can use that for the conditional below.*/
-        
-        //check if shot was hit or miss:
-        //if(coords == hit) flag = true
-        //else  flag = false
 
-        /*bojack: your flag is commented out above. this if loop needs a different conditional.*/
-        if(!flag){  //if coordinates were a miss, select random coordinates
-            randRow = random.nextInt(max - min + 1) + min;
-            randCol = random.nextInt(max - min + 1) + min;
+        //checks if lastShot was a miss, or a hit
+        if(model.computerMisses.contains(lastShot) || lastShot == null){
+            randFire(max, min);
         }
-        
-        /*bojack: you need a way to store shotdata from previous shots fired. that way it doesn't shoot the same place twice.*/
-        else {  //otherwise select coordinates nearby previous coordinates
-            //simply go: maxCols = cols+1, maxRows = rows+1
-            //           minCols = cols-1, minRows = rows-1
-            randRow = random.nextInt(max - min + 1) + min;
-            randCol = random.nextInt(max - min + 1) + min;
+        else{
+            smartFire(max, min);
         }
-        Coordinate coor = new Coordinate(randRow, randCol);
+
 
         /*bojack: the idea behind this makes sense.
             Daniel and I may change the class structure so the . objects may change in the near future.*/
+
+
+        /*//Dont know if i need this section or not, duplicates may already be checked on line 144
         // Check for duplicates
         for (ShotData s: model.computerHits) {
             if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
@@ -156,9 +212,7 @@ public class Hard {
                 model.playerShot(coor);
                 return; 
             }
-        }
-
-        model.playerShot(coor);
+        }*/
 
     }
 }

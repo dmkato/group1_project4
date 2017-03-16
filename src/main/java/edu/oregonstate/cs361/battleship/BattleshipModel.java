@@ -194,6 +194,7 @@ public class BattleshipModel {
             playerMisses.add(new ShotData(coor, "default"));
             return;
         }
+        System.out.println("computer has shot");
     }
 
     public void scan(int rowInt, int colInt) {
