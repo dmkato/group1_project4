@@ -10,19 +10,53 @@ var gameMode = "Easy"
 $( document ).ready(function() {
     alert("INSTRUCTIONS: \n Press 'Place Ship' button at bottom\n Choose the ship to place, displayed under 'computer ships remaining.' **Note: Must choose smallest ship first.\n Press 'Rotate Ship' to choose between Horizontal and Vertical. **Note: Default is Horizontal.\n Press 'Fire' to fire");
 
-  // Handler for .ready() called.
-  $.getJSON("model", function( json ) {
-    gameModel = json;
-    gmString = JSON.stringify(gameModel)
-    console.log( "JSON Data: " + gmString);
-  });
-
-  // Create gameBoards
-  createGameBoards();
-  chooseShips();
-  SetUpShipStatus();
-
 });
+
+function pressedEasy(){
+    didPressScan = false;
+    didPressPlaceShip = false;
+    didPressEasy = true;
+    gameMode = "Easy";
+
+    // Hide buttons after choosing
+    $('#easyBtn').css("display", "none");
+    $('#hardBtn').css("display", "none");
+
+    // Handler for .ready() called.
+    $.getJSON("model/Easy", function( json ) {
+      gameModel = json;
+      gmString = JSON.stringify(gameModel)
+      console.log( "JSON Data: " + gmString);
+    });
+
+    // Create gameBoards
+    createGameBoards();
+    chooseShips();
+    SetUpShipStatus();
+}
+
+function pressedHard(){
+    didPressScan = false;
+    didPressPlaceShip = false;
+    didPressEasy = true;
+    gameMode = "Hard";
+
+    // Hide buttons after choosing
+    $('#easyBtn').css("display", "none");
+    $('#hardBtn').css("display", "none");
+
+    // Handler for .ready() called.
+    $.getJSON("model/Hard", function( json ) {
+      gameModel = json;
+      gmString = JSON.stringify(gameModel)
+      console.log( "JSON Data: " + gmString);
+    });
+
+    // Create gameBoards
+    createGameBoards();
+    chooseShips();
+    SetUpShipStatus();
+}
 
 /* Places Ship based on buttons that no longer exist */
 function placeShip(ship, x, y, orientation) {
@@ -61,7 +95,7 @@ function fire(x, y){
   console.log(y);
   //var menuId = $( "ul.nav" ).first().attr( "id" );
   var request = $.ajax({
-    url: "/fire/"+x+"/"+y+"/"+gameMode,
+    url: "/fire/"+x+"/"+y,
     method: "post",
     data: JSON.stringify(gameModel),
     contentType: "application/json; charset=utf-8",
@@ -350,25 +384,6 @@ function pressedPlaceShip(){
   $('#fireBtn').removeClass('btn-success');
   $('#scanBtn').removeClass('btn-success');
   $('#rotateShipBtn').removeClass('btn-success');
-}
-
-function pressedEasy(){
-    didPressScan = false;
-    didPressPlaceShip = false;
-    didPressEasy = true;
-
-    if(gameMode == "Easy"){ // Easy mode
-      gameMode = "Hard";
-      $('#easyBtn').text("Hard mode");
-      $('#easyBtn').removeClass('btn-success');
-      $('#easyBtn').addClass('btn-danger');
-
-    } else {  // Hard mode
-      gameMode = "Easy";
-      $('#easyBtn').text("Easy mode");
-      $('#easyBtn').removeClass('btn-danger');
-      $('#easyBtn').addClass('btn-success');
-    }
 }
 
 function pressedRotate(){

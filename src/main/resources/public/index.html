@@ -48,8 +48,12 @@
 <whitetext>computer ships remaining | computer shots</whitetext>
 
 <div id="parent">
-    <div id="shipStatus"></div>
-    <div id="MyBoard" class="gameBoard"></div>
+    <div id="shipStatus">
+        <button id="easyBtn" class= "btn btn-default btn-lg btn-success" type="button" onclick="pressedEasy()">Easy Mode</button>
+    </div>
+    <div id="MyBoard" class="gameBoard">
+        <button id="hardBtn" class= "btn btn-default btn-lg btn-danger" type="button" onclick="pressedHard()">Hard Mode</button></div>
+    </div>
 </div>
 
 <whitetext>player shots</whitetext>
@@ -62,7 +66,6 @@
     <button id="scanBtn" class="btn btn-default btn-xs" type="button" onclick="pressedScan()">Scan</button>
     <button id="placeShipBtn" class="btn btn-default btn-xs" type="button" onclick="pressedPlaceShip()">Place Ship</button>
     <button id="rotateShipBtn" class="btn btn-default btn-xs" type="button" onclick="pressedRotate()">Rotate Ship</button>
-    <button id="easyBtn" class= "btn btn-default btn-xs btn-success" type="button" onclick="pressedEasy()">Easy Mode</button>
 </footer>
 <BR>
 </body>
