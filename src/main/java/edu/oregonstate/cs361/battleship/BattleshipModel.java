@@ -32,8 +32,6 @@ public class BattleshipModel {
     ArrayList<ShotData> computerMisses;
 
     boolean scanResult = false;
-    boolean gameMode = false;   // boolean to set difficulty level: false is easy mode, true is hard mode
-    boolean flag = false;       // used by Fireat function to determine whether to choose randomly or not
 
 
     public BattleshipModel() {
@@ -143,30 +141,15 @@ public class BattleshipModel {
         }
     }
 
-    public void shootAtPlayer(/*might need to pass in previous coordinates: Coordinate coor*/) {
 
-        //check to see if we want to fire randomly or not:
-        //check to see if previous coordinates hit a ship, if so don't choose next coordinates randomly:
-        //if(!flag): // flag set to false means no ship was hit
+    public void shootAtPlayer() {
+
         int max = 10;
         int min = 1;
         Random random = new Random();
         int randRow = random.nextInt(max - min + 1) + min;
         int randCol = random.nextInt(max - min + 1) + min;
         Coordinate coor = new Coordinate(randRow, randCol);
-
-        //hardmode:
-        //should fire at nearby locations if a player ship is hit
-        //should then fire in a contiguous line (smart firing)
-        /*
-        else:
-            check if prev coord is a hit:
-                continue firing in that direction (right, left, up, down)
-            else:   fire at left, right, top, or bottom position (relative to coords)
-            if (ship sink):
-                set flag to false -> so it will continue firing randomly
-         */
-
 
         // Check for duplicates
         for (ShotData s: computerHits) {
@@ -211,6 +194,7 @@ public class BattleshipModel {
             playerMisses.add(new ShotData(coor, "default"));
             return;
         }
+        System.out.println("computer has shot");
     }
 
     public void scan(int rowInt, int colInt) {
