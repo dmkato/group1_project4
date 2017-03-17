@@ -91,8 +91,6 @@ function fire(x, y){
    var voice_delay = 500;
    lasergun.play();
 
-  console.log(x);
-  console.log(y);
   //var menuId = $( "ul.nav" ).first().attr( "id" );
   var request = $.ajax({
     url: "/fire/"+x+"/"+y,
