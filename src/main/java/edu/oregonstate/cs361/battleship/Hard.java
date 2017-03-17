@@ -33,17 +33,17 @@ public class Hard extends BattleshipModel{
     public boolean checkDecrement(int Row, int Col, String direction, int length, int start){    //checks decrement for noCollision function
         for(int x=start; x>=length+start; x--){ //want to decrement for length of ship
             //if(Row-length <0 || Col-length<0)   return false;   //we already checked bounds in noCollision
-            if(direction=="vertical"){
-                if(board[x][Col]==1)   return false;   //there is no way to place the ship (down->up, or up->down)
+            if(direction.equals("vertical")){
+                if(board[x][Col] == 1)   return false;   //there is no way to place the ship (down->up, or up->down)
             }
-            else if(direction=="horizontal"){
-                if(board[Row][x]==1)    return false;   //collision occurred
+            else if(direction.equals("horizontal")){
+                if(board[Row][x] == 1)    return false;   //collision occurred
             }
         }
         //otherwise conditions passed, we can place ship, first fill the simulated board
         for(int i=start; i>=length+start; i--){
-            if(direction=="vertical") board[i][Col]=1;
-            else if(direction=="horizontal")  board[Row][i]=1;
+            if(direction.equals("vertical")) board[i][Col]=1;
+            else if(direction.equals("horizontal"))  board[Row][i]=1;
         }
 
         return true;
@@ -55,32 +55,32 @@ public class Hard extends BattleshipModel{
         int length=0;
         int start;
         //get length of ship
-        if(shipName=="aircraftCarrier") length = 5;
-        else if(shipName=="battleship") length = 4;
-        else if(shipName=="submarine")  length = 2;
-        else if(shipName=="clipper")    length = 3;
-        else if(shipName=="dhingy")     length = 1;
-        else if(shipName=="fisher")     length = 2;
+        if(shipName.equals("aircraftCarrier")) length = 5;
+        else if(shipName.equals("battleship")) length = 4;
+        else if(shipName.equals("submarine"))  length = 2;
+        else if(shipName.equals("clipper"))    length = 3;
+        else if(shipName.equals("dhingy"))     length = 1;
+        else if(shipName.equals("fisher"))     length = 2;
 
-        //if the ship will never collide with current layout, then return true, otherwise return false
+        //if the ship will never collide with current layHout, then return true, otherwise return false
         //set the board accordingly if there is no collision
-        if(direction=="vertical") start = Row;    //will only increment/decrement the Rows
+        if(direction.equals("vertical")) start = Row;    //will only increment/decrement the Rows
         else    start = Col;                //will only increment/decrement the Cols
 
         for(int x=start; x<length; x++){
             if(Row+length >=10 || Col+length >= 10 || Row-length <0 || Col-length <0)    return false;   //this means out of bounds
-            if(direction=="horizontal"){    //will be placing horizontally, only cols are changing
-                if(board[x][Col]==1)   return checkDecrement(Row, Col, direction, length, start);   //if any spots in line of path are 1, then checkDecrement
+            if(direction.equals("horizontal")){    //will be placing horizontally, only cols are changing
+                if(board[x][Col] == 1)   return checkDecrement(Row, Col, direction, length, start);   //if any spots in line of path are 1, then checkDecrement
             }
-            else if(direction=="vertical"){ //will be placing vertically, only rows are changing
-                if(board[Row][x]==1)    return checkDecrement(Row, Col, direction, length, start);
+            else if(direction.equals("vertical")){ //will be placing vertically, only rows are changing
+                if(board[Row][x] == 1)    return checkDecrement(Row, Col, direction, length, start);
             }
         }
 
         //conditions passed, we can place ships
         for(int i=start; i<length; i++){
-            if(direction=="vertical")    board[i][Col] = 1;      //set position to "filled"
-            else if(direction=="horizontal") board[Row][i] = 1;
+            if(direction.equals("vertical"))    board[i][Col] = 1;      //set position to "filled"
+            else if(direction.equals("horizontal")) board[Row][i] = 1;
         }
 
         return true;
@@ -95,7 +95,7 @@ public class Hard extends BattleshipModel{
         int max = 10; //bojack: usually these types of variables would be global constants instead of local ints
         int min = 1;  //that way if we wanted to expand the board to 25x25 we would only have to change the constants
                       //you're also using these values elsewhere in the file. that's why I mention it.
-        
+
         int randIterator = random.nextInt(2) + 1;   //random num 1 or 2
         int randRow = random.nextInt(max - min + 1) + min, randCol = random.nextInt(max - min + 1) + min;
 
@@ -204,7 +204,7 @@ public class Hard extends BattleshipModel{
             if(s.loc.getAcross() == coor.getAcross() && s.loc.getDown() == coor.getDown()){
                 model.shootAtPlayer();
                 model.playerShot(coor);
-                return; 
+                return;
             }
         }
         for (ShotData s: model.computerMisses) {
