@@ -18,7 +18,7 @@ public class Main {
         //This will listen to GET requests to /model and return a clean new model
         get("/model/:mode", (req, res) -> newModel(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to fire to
-        post("/fire/:row/:col/", (req, res) -> fireAt(req));
+        post("/fire/:row/:col", (req, res) -> fireAt(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to scan
         post("/scan/:row/:col", (req, res) -> scan(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to place the ship
@@ -41,7 +41,7 @@ public class Main {
         return gson.toJson(bm);
     }
 
-    //This function accepts an HTTP request and deseralizes it into an actual Java object.
+    //This function accepts an HTTP request and deserializes it into an actual Java object.
     private static BattleshipModel getModelFromReq(Request req){
         Gson gson = new Gson();
         String result = "";
@@ -50,8 +50,7 @@ public class Main {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        BattleshipModel modelFromReq = gson.fromJson(result, BattleshipModel.class);
-        return modelFromReq;
+        return gson.fromJson(result, BattleshipModel.class);
     }
 
     //This controller
@@ -71,7 +70,6 @@ public class Main {
 
         String row = req.params("row");
         String col = req.params("col");
-        String mode = req.params("mode");
         int rowInt = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
 

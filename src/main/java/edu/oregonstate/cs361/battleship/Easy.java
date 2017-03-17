@@ -12,7 +12,7 @@ public class Easy extends BattleshipModel{
 
     private int convertToInt(){
 
-    return 0;
+        return 0;
     }
 
     //place ships
@@ -83,7 +83,9 @@ public class Easy extends BattleshipModel{
      *i.e. array[0][1], array[0][3], array[0][5]...
      *Then it will fire down in the same fashion stated above
      */
-    public void fire(){
+
+    @Override
+    public void shootAtPlayer(){
         int max = 10, min = 1, row = 0, col = 0;
         Coordinate coor = new Coordinate(row, col);
         //firing on 0 and even numbers
