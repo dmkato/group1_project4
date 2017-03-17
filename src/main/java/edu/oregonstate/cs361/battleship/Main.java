@@ -18,7 +18,7 @@ public class Main {
         //This will listen to GET requests to /model and return a clean new model
         get("/model/:mode", (req, res) -> newModel(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to fire to
-        post("/fire/:row/:col/", (req, res) -> fireAt(req));
+        post("/fire/:row/:col", (req, res) -> fireAt(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to scan
         post("/scan/:row/:col", (req, res) -> scan(req));
         //This will listen to POST requests and expects to receive a game model, as well as location to place the ship
@@ -36,8 +36,6 @@ public class Main {
         } else {
             bm = new Easy();
         }
-
-        bm = new BattleshipModel();
 
         Gson gson = new Gson();
         return gson.toJson(bm);
