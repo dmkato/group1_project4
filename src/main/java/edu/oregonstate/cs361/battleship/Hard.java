@@ -25,8 +25,6 @@ public class Hard extends BattleshipModel{
     private int BOARD_SIZE = 10;     //Board dimensions
     private Random random = new Random();
 
-    //probably don't need this with the inheritance
-    BattleshipModel model = new BattleshipModel();
     
     /*bojack: this method is clever, preventing the ships from existing in the same squares. Good job*/
     //function follows the noCollision. It checks the opposite direction of what was tested in noCollision
@@ -111,7 +109,7 @@ public class Hard extends BattleshipModel{
             y = String.valueOf(randCol);
 
             //place the ship, should be able to place without collision
-            model.placeShip(shipName[i], x, y, direction[randIterator]);
+            placeShip(shipName[i], x, y, direction[randIterator]);
         }
 
     }
@@ -120,7 +118,7 @@ public class Hard extends BattleshipModel{
     //returns validity of shot
     public boolean checkShot(Coordinate coor){
         //if computer has shot there before
-        if(model.computerHits.contains(coor) || model.computerMisses.contains(coor))    return false;
+        if(computerHits.contains(coor) || computerMisses.contains(coor))    return false;
         //otherwise computer has not yet shot there
         return true;
     }
@@ -186,7 +184,7 @@ public class Hard extends BattleshipModel{
         you can use that for the conditional below.*/
 
         //checks if lastShot was a miss, or a hit
-        if(model.computerMisses.contains(lastShot) || lastShot == null){
+        if(computerMisses.contains(lastShot) || lastShot == null){
             randFire(max, min);
         }
         else{
