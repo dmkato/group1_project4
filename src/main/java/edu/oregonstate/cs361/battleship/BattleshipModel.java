@@ -137,7 +137,6 @@ public class BattleshipModel {
             addToMilitaryHitList(computer_submarine, coor, computerHits);
         } else {
             computerMisses.add(new ShotData (coor, "default"));
-            return;
         }
     }
 
@@ -172,11 +171,10 @@ public class BattleshipModel {
 
     void playerShot(Coordinate coor) {
         ShotData search = new ShotData(coor, "default");
-        if(playerMisses.contains(search)){
+        if(playerMisses.contains(search)) {
             System.out.println("Dupe");
             this.shootAtPlayer();
         }
-        Ship temp;
 
         if(aircraftCarrier.covers(coor)){
             addToMilitaryHitList(aircraftCarrier, coor, playerHits);
