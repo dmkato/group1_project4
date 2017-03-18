@@ -60,6 +60,10 @@ public class BattleshipModel {
         }
     }
 
+    public void computerPlaceShips() {
+        System.out.print("Default");
+    }
+
     public void placeShip(String shipName, String row, String col, String orientation) {
         int rowint = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
@@ -139,7 +143,7 @@ public class BattleshipModel {
         }
     }
 
-/*
+
     public void shootAtPlayer() {
 
         int max = 10;
@@ -167,7 +171,7 @@ public class BattleshipModel {
         playerShot(coor);
     }
 
-*/
+
 
     void playerShot(Coordinate coor) {
         ShotData search = new ShotData(coor, "default");

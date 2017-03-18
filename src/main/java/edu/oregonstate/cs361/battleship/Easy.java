@@ -16,7 +16,8 @@ public class Easy extends BattleshipModel{
     }
 
     //place ships
-    public void ComputerPlaceShip() {
+    @Override
+    public void computerPlaceShips() {
         String x = "0", y = "0";
         int numX = 0, numY = 0, z = 0;    //x = x-coord, y = y-coord, z = helper in placing
 
@@ -84,6 +85,7 @@ public class Easy extends BattleshipModel{
      *Then it will fire down in the same fashion stated above
      */
 
+    @Override
     public void shootAtPlayer(){
         int max = 10, min = 1, row = 0, col = 0;
         Coordinate coor = new Coordinate(row, col);

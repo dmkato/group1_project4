@@ -62,7 +62,7 @@ function pressedHard(){
 function placeShip(ship, x, y, orientation) {
   //var menuId = $( "ul.nav" ).first().attr( "id" );
   var request = $.ajax({
-    url: "/placeShip/"+ship+"/"+x+"/"+y+"/"+orientation,
+    url: "/placeShip/"+ship+"/"+x+"/"+y+"/"+orientation+"/"+gameMode,
     method: "post",
     data: JSON.stringify(gameModel),
     contentType: "application/json; charset=utf-8",
@@ -93,7 +93,7 @@ function fire(x, y){
 
   //var menuId = $( "ul.nav" ).first().attr( "id" );
   var request = $.ajax({
-    url: "/fire/"+x+"/"+y,
+    url: "/fire/"+x+"/"+y+"/"+gameMode,
     method: "post",
     data: JSON.stringify(gameModel),
     contentType: "application/json; charset=utf-8",
@@ -152,7 +152,7 @@ function scan(x, y){
   console.log(y);
   //var menuId = $( "ul.nav" ).first().attr( "id" );
   var request = $.ajax({
-    url: "/scan/"+x+"/"+y,
+    url: "/scan/"+x+"/"+y+"/"+gameMode,
     method: "post",
     data: JSON.stringify(gameModel),
     contentType: "application/json; charset=utf-8",

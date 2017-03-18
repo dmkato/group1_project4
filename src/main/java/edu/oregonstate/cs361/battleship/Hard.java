@@ -87,7 +87,8 @@ public class Hard extends BattleshipModel{
     /*bojack: this function may end up being in a different class.*/
     /*wongnich: I was thinking about that, but the easy mode and hard mode have different ship placement attributes*/
     //places ships randomly
-    public void computerplaceShips() {
+    @Override
+    public void computerPlaceShips() {
         Random random = new Random();
         String x, y;
         int max = 10; //bojack: usually these types of variables would be global constants instead of local ints
