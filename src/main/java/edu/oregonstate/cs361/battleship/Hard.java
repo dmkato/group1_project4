@@ -174,7 +174,6 @@ public class Hard extends BattleshipModel{
     }
 
     //Function will fire "smartly"
-    @Override
     public void shootAtPlayer(){
         int max = BOARD_SIZE;
         int min = 1;
