@@ -60,40 +60,39 @@ public class BattleshipModel {
         }
     }
 
-    public BattleshipModel placeShip(String shipName, String row, String col, String orientation) {
+    public void placeShip(String shipName, String row, String col, String orientation) {
         int rowint = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
         if(orientation.equals("horizontal")){
             if (shipName.equalsIgnoreCase("aircraftcarrier")) {
-                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+4));
+                getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+4));
             } if(shipName.equalsIgnoreCase("battleship")) {
-                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+3));
+                getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt+3));
             } if(shipName.equalsIgnoreCase("dhingy")) {
-                this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt));
+                getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt));
             } if(shipName.equalsIgnoreCase("clipper")) {
-                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 2));
+                getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 2));
             } if(shipName.equalsIgnoreCase("fisher")){
-                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
+                getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
             }if(shipName.equalsIgnoreCase("submarine")) {
-                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
+                getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint, colInt + 1));
             }
         }else{
             //vertical
                 if (shipName.equalsIgnoreCase("aircraftcarrier")) {
-                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+4,colInt));
+                    getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+4,colInt));
                 } if(shipName.equalsIgnoreCase("battleship")) {
-                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+3,colInt));
+                    getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint+3,colInt));
                 } if(shipName.equalsIgnoreCase("dhingy")) {
-                    this.getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt));
+                    getShip(shipName).setLocation(new Coordinate(rowint,colInt),new Coordinate(rowint,colInt));
                 } if(shipName.equalsIgnoreCase("clipper")) {
-                this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 2, colInt));
+                    getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 2, colInt));
                 } if(shipName.equalsIgnoreCase("fisher")){
-                    this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
+                    getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
                 }if(shipName.equalsIgnoreCase("submarine")) {
-                    this.getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
+                    getShip(shipName).setLocation(new Coordinate(rowint, colInt), new Coordinate(rowint + 1, colInt));
                 }
         }
-        return this;
     }
 
     public void addToMilitaryHitList(Ship x, Coordinate coor, ArrayList<ShotData> z){
@@ -140,7 +139,7 @@ public class BattleshipModel {
         }
     }
 
-
+/*
     public void shootAtPlayer() {
 
         int max = 10;
@@ -168,12 +167,13 @@ public class BattleshipModel {
         playerShot(coor);
     }
 
+*/
 
     void playerShot(Coordinate coor) {
         ShotData search = new ShotData(coor, "default");
         if(playerMisses.contains(search)) {
             System.out.println("Dupe");
-            this.shootAtPlayer();
+            //this.shootAtPlayer();
         }
 
         if(aircraftCarrier.covers(coor)){
